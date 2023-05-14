@@ -19,9 +19,9 @@ public class LibraryCard {
     @Column(name = "id", updatable = false)
     private Long id;
 
-//    @OneToOne
-//    @JoinColumn(name = "user_id", unique = true)
-//    private User user;
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
     @Column(name = "card_number", nullable = false, unique = true)
     private int libraryCardNumber;

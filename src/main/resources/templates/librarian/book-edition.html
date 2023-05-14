@@ -21,6 +21,10 @@
     <h1>Edit book</h1>
     <form th:action="@{/librarian/books/edition/{id}(id=${book.id})}" th:object="${book}" method="post">
         <div class="mb-3">
+            <label for="barcode">Barcode: </label>
+            <input type="text" class="form-control" id="barcode" th:field="*{barcode}"/>
+        </div>
+        <div class="mb-3">
             <label for="isbn">ISBN: </label>
             <input type="text" class="form-control" id="isbn" th:field="*{isbn}"/>
         </div>

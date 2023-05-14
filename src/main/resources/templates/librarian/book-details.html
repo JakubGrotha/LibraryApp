@@ -38,8 +38,16 @@
 </head>
 <body>
 <nav th:insert="fragments/librarian-nav.html :: navbar"></nav>
-<div style="font-family: Georgia, serif; width: 500px" class="container"
+<div style="font-family: Georgia, serif; width: 600px" class="container"
      th:action="@{/books/{bookId}(bookId=${book.id})}" th:object="${book}">
+    <div class="row">
+        <div class="col-3">
+            Barcode
+        </div>
+        <div class="col-9">
+            <p th:text="${book.barcode}">barcode</p>
+        </div>
+    </div>
     <div class="row">
         <div class="col-3">
             ISBN

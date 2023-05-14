@@ -16,6 +16,9 @@ public class Book {
     @Column(name = "id", updatable = false)
     private Long id;
 
+    @Column(name = "barcode")
+    private Integer barcode;
+
     @Column(name = "isbn", nullable = false, columnDefinition = "TEXT")
     private String isbn;
 

@@ -38,10 +38,14 @@ public class BookService {
                 .orElseThrow(() -> new BookNotFoundException("No book found with the following ID: %d".formatted(bookId)));
     }
 
-
     public Book findBookByIsbn(String bookIsbn) {
         return bookRepository.findBookByIsbn(bookIsbn)
                 .orElseThrow(() -> new BookNotFoundException("No book found with the following ISBN: %s".formatted(bookIsbn)));
+    }
+
+    public Book findBookByBarcode(Integer barcode) {
+        return bookRepository.findBookByBarcode(barcode)
+                .orElseThrow(() -> new BookNotFoundException("No book found with the following ISBN: %d".formatted(barcode)));
     }
 
     public boolean checkIfIsbnHasCorrectFormat(String isbn) {

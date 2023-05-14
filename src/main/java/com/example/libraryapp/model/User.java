@@ -31,6 +31,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//    private LibraryCard libraryCard;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private LibraryCard libraryCard;
 }

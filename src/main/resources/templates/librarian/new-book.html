@@ -20,6 +20,10 @@
     <h1>Add a new book to the library</h1>
     <form th:action="@{/librarian/books}" th:object="${book}" method="post">
         <div class="mb-3">
+            <label for="barcode">Barcode: </label>
+            <input type="text" class="form-control" id="barcode" th:field="*{barcode}"/>
+        </div>
+        <div class="mb-3">
             <label for="isbn">ISBN: </label>
             <input type="text" class="form-control" id="isbn" th:field="*{isbn}"/>
         </div>

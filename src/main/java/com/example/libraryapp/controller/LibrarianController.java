@@ -110,9 +110,9 @@ public class LibrarianController {
     }
 
     @PostMapping("loan")
-    public String registerBookLoan(@RequestParam("book.isbn") String isbn,
+    public String registerBookLoan(@RequestParam("book.barcode") Integer barcode,
                                    @RequestParam("libraryCard.number") int libraryCardNumber) {
-        Book bookToLoan = bookService.findBookByIsbn(isbn);
+        Book bookToLoan = bookService.findBookByBarcode(barcode);
         LibraryCard libraryCard = libraryCardService.findLibraryCardByCardNumber(libraryCardNumber);
 
         Loan loan = new Loan();
@@ -145,8 +145,8 @@ public class LibrarianController {
     }
 
     @GetMapping("return/register")
-    public String registerBookReturn(@RequestParam("isbn") String isbn) {
-        Book bookToReturn = bookService.findBookByIsbn(isbn);
+    public String registerBookReturn(@RequestParam("barcode") Integer barcode) {
+        Book bookToReturn = bookService.findBookByBarcode(barcode);
 
         if (bookToReturn != null) {
             Loan loan = bookToReturn.getLoan();
