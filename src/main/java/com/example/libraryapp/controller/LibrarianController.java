@@ -1,5 +1,6 @@
 package com.example.libraryapp.controller;
 
+import com.example.libraryapp.exception.BookAlreadyBorrowedException;
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.model.LibraryCard;
 import com.example.libraryapp.model.Loan;
@@ -111,28 +112,33 @@ public class LibrarianController {
 
     @PostMapping("loan")
     public String registerBookLoan(@RequestParam("book.barcode") Integer barcode,
-                                   @RequestParam("libraryCard.number") int libraryCardNumber) {
+                                   @RequestParam("libraryCard.number") int libraryCardNumber,
+                                   @RequestParam("duration") int duration) {
         Book bookToLoan = bookService.findBookByBarcode(barcode);
         LibraryCard libraryCard = libraryCardService.findLibraryCardByCardNumber(libraryCardNumber);
+        if (bookToLoan.isAvailable()) {
 
-        Loan loan = new Loan();
-        loan.setBook(bookToLoan);
-        loan.setLoanDate(LocalDate.now());
-        loan.setReturnDate(LocalDate.now().plusMonths(3));
-        loan.setLibraryCard(libraryCard);
+            Loan loan = new Loan();
+            loan.setBook(bookToLoan);
+            loan.setLoanDate(LocalDate.now());
+            loan.setReturnDate(LocalDate.now().plusMonths(duration));
+            loan.setLibraryCard(libraryCard);
 
-        List<Loan> currentLoans = libraryCard.getBookLoans();
-        if (currentLoans == null) {
-            currentLoans = new ArrayList<>();
+            List<Loan> currentLoans = libraryCard.getBookLoans();
+            if (currentLoans == null) {
+                currentLoans = new ArrayList<>();
+            }
+            currentLoans.add(loan);
+            libraryCardService.updateLibraryCard(libraryCard);
+            loanService.updateLoan(loan);
+
+            bookToLoan.setLoan(loan);
+            bookToLoan.setAvailable(false);
+            bookService.updateBook(bookToLoan);
+        } else {
+            throw new BookAlreadyBorrowedException("Book with the following barcode has already been borrowed: %d"
+                    .formatted(bookToLoan.getBarcode()));
         }
-        currentLoans.add(loan);
-        libraryCardService.updateLibraryCard(libraryCard);
-        loanService.updateLoan(loan);
-
-        bookToLoan.setLoan(loan);
-        bookToLoan.setAvailable(false);
-        bookService.updateBook(bookToLoan);
-
 
 
         return REDIRECT_TO_MAIN_VIEW;

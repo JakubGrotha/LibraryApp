@@ -13,14 +13,14 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("default")
+    @GetMapping("/default")
     public String defaultAfterLogin(HttpServletRequest request) {
         if (request.isUserInRole("ROLE_ADMIN")) {
-            return "redirect:/admin/";
+            return "redirect:/admin";
         } else if (request.isUserInRole("ROLE_LIBRARIAN")) {
-            return "redirect:/librarian/";
+            return "redirect:/librarian";
         } else {
-            return "redirect:/user/";
+            return "redirect:/user";
         }
     }
 }
