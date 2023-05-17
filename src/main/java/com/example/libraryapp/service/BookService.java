@@ -25,7 +25,7 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public void deleteBookById(Long bookId) {
+    public void deleteBookById(long bookId) {
         bookRepository.deleteById(bookId);
     }
 
@@ -33,7 +33,7 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public Book findBookById(Long bookId) {
+    public Book findBookById(long bookId) {
         return bookRepository.findById(bookId)
                 .orElseThrow(() -> new BookNotFoundException("No book found with the following ID: %d".formatted(bookId)));
     }

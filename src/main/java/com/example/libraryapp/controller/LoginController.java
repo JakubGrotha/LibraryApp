@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
-    @GetMapping("login")
+    @GetMapping("/login")
     public String getLoginForm() {
         return "login";
     }

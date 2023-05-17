@@ -15,7 +15,7 @@ public class Loan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @ManyToOne
     private LibraryCard libraryCard;

@@ -17,7 +17,7 @@ public class LibraryCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
-    private Long id;
+    private long id;
 
     @OneToOne
     @JoinColumn(name = "user_id", unique = true)

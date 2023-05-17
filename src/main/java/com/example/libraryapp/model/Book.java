@@ -14,7 +14,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "barcode")
     private Integer barcode;

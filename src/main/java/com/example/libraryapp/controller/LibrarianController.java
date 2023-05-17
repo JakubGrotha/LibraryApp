@@ -21,7 +21,6 @@ import java.util.List;
 public class LibrarianController {
 
     private static final String REDIRECT_TO_MAIN_VIEW = "redirect:/librarian";
-    private static final String REDIRECT_TO_ALL_BOOKS = "redirect:/librarian/books";
 
     private final BookService bookService;
     private final LibraryCardService libraryCardService;
@@ -47,50 +46,6 @@ public class LibrarianController {
         } else {
             return REDIRECT_TO_MAIN_VIEW;
         }
-    }
-
-    @GetMapping("/books")
-    public String getAllBooks(Model model) {
-        List<Book> books = bookService.getAllBooks();
-        model.addAttribute("books", books);
-        return "librarian/books";
-    }
-
-    @GetMapping("new")
-    public String showNewBookForm(Model model) {
-        model.addAttribute("book", new Book());
-        return "librarian/new-book";
-    }
-
-    @PostMapping("books")
-    public String addNewBook(Book book) {
-        book.setAvailable(true);
-        bookService.addNewBook(book);
-        return REDIRECT_TO_ALL_BOOKS;
-    }
-
-    @GetMapping("/books/{id}")
-    public String viewOneBook(@PathVariable Long id, Model model) {
-        model.addAttribute("book", bookService.findBookById(id));
-        return "librarian/book-details";
-    }
-
-    @GetMapping("/books/delete/{id}")
-    public String deleteBook(@PathVariable Long id) {
-        bookService.deleteBookById(id);
-        return REDIRECT_TO_ALL_BOOKS;
-    }
-
-    @GetMapping("/books/edition-form/{id}")
-    public String getBookEditionForm(@PathVariable Long id, Model model) {
-        model.addAttribute("book", bookService.findBookById(id));
-        return "librarian/book-edition";
-    }
-
-    @PostMapping("/books/edition/{id}")
-    public String bookPutMethod(@PathVariable Long id, @ModelAttribute Book book) {
-        bookService.updateBook(book);
-        return REDIRECT_TO_ALL_BOOKS;
     }
 
     @GetMapping("user/new")
