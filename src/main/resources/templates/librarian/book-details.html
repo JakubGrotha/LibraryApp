@@ -104,6 +104,9 @@
             <p th:text="${book.language}">bookLanguage</p>
         </div>
     </div>
+    <div style="margin-top: 10px" th:if="${!book.available}" class="alert alert-danger" role="alert">
+        The book has been borrowed. The return date: <span style="font-weight: bold" th:text="${loan.getReturnDate()}"></span>
+    </div>
 </div>
 <div style="margin-top: 15px" class="row-flex text-center">
     <a th:href="@{/librarian/books/delete/{bookId}(bookId=${book.id})}" class="btn btn-danger">

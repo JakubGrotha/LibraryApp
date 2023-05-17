@@ -2,6 +2,7 @@ package com.example.libraryapp.controller;
 
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.service.BookService;
+import com.example.libraryapp.service.LoanService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,11 @@ import java.util.List;
 public class LibrarianBookController {
 
     private final BookService bookService;
+    private final LoanService loanService;
 
-    public LibrarianBookController(BookService bookService) {
+    public LibrarianBookController(BookService bookService, LoanService loanService) {
         this.bookService = bookService;
+        this.loanService = loanService;
     }
 
     private static final String REDIRECT_TO_ALL_BOOKS = "redirect:/librarian/books";
@@ -43,7 +46,11 @@ public class LibrarianBookController {
 
     @GetMapping("/books/{id}")
     public String viewOneBook(@PathVariable long id, Model model) {
-        model.addAttribute("book", bookService.findBookById(id));
+        Book book = bookService.findBookById(id);
+        model.addAttribute("book", book);
+        if (!book.isAvailable()) {
+            model.addAttribute("loan", loanService.findLoanById(book.getLoan().getId()));
+        }
         return "librarian/book-details";
     }
 
