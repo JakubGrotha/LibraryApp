@@ -51,6 +51,7 @@
             <label for="bookLanguage">Language: </label>
             <input type="text" class="form-control" id="bookLanguage" th:field="*{bookDetails.language}"/>
         </div>
+        <input type="hidden" class="form-control" id="id" th:field="*{bookDetails.id}">
         <button type="submit" class="btn btn-success">Add the book</button>
     </form>
     <div class="row-flex text-center mt-3"><a th:href="@{/librarian}" class="btn btn-primary">

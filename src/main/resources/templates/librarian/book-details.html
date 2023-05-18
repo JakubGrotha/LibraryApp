@@ -30,7 +30,7 @@
     <td th:text="*{bookDetail.author}">Author</td>
     <td th:text="*{bookDetail.genre}">Genre</td>
     <td th:text="*{bookDetail.language}">Language</td>
-    <td><a th:href="@{books/{id}(id=${bookDetail.id})}" class="btn btn-light">See more</a></td>
+    <td><a th:href="@{book-details/{id}(id=${bookDetail.id})}" class="btn btn-light">See more</a></td>
   </tr>
   </tbody>
 </table>

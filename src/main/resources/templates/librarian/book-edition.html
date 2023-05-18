@@ -26,31 +26,31 @@
         </div>
         <div class="mb-3">
             <label for="isbn">ISBN: </label>
-            <input type="text" class="form-control" id="isbn" th:field="*{isbn}"/>
+            <input type="text" class="form-control" id="isbn" th:field="*{bookDetails.isbn}"/>
         </div>
         <div class="mb-3">
             <label for="bookAuthor">Book author: </label>
-            <input type="text" class="form-control" id="bookAuthor" th:field="*{author}"/>
+            <input type="text" class="form-control" id="bookAuthor" th:field="*{bookDetails.author}"/>
         </div>
         <div class="mb-3">
             <label for="bookTitle">Book title: </label>
-            <input type="text" class="form-control" id="bookTitle" th:field="*{title}"/>
+            <input type="text" class="form-control" id="bookTitle" th:field="*{bookDetails.title}"/>
         </div>
         <div class="mb-3">
             <label for="bookPublisher">Publisher: </label>
-            <input type="text" class="form-control" id="bookPublisher" th:field="*{publisher}"/>
+            <input type="text" class="form-control" id="bookPublisher" th:field="*{bookDetails.publisher}"/>
         </div>
         <div class="mb-3">
             <label for="numOfPages">Number of pages: </label>
-            <input type="text" class="form-control" id="numOfPages" th:field="*{numberOfPages}"/>
+            <input type="text" class="form-control" id="numOfPages" th:field="*{bookDetails.numberOfPages}"/>
         </div>
         <div class="mb-3">
             <label for="bookGenre">Book genre: </label>
-            <input type="text" class="form-control" id="bookGenre" th:field="*{genre}"/>
+            <input type="text" class="form-control" id="bookGenre" th:field="*{bookDetails.genre}"/>
         </div>
         <div class="mb-3">
             <label for="bookLanguage">Language: </label>
-            <input type="text" class="form-control" id="bookLanguage" th:field="*{language}"/>
+            <input type="text" class="form-control" id="bookLanguage" th:field="*{bookDetails.language}"/>
         </div>
         <input type="hidden" th:field="*{available}">
         <button type="submit" class="btn btn-success">Edit book</button>
