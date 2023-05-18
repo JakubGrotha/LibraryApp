@@ -27,10 +27,10 @@
     </thead>
     <tbody>
     <tr th:each="book: ${books}">
-        <td th:text="${book.title}">Id</td>
-        <td th:text="${book.author}">Author</td>
-        <td th:text="${book.genre}">Genre</td>
-        <td th:text="${book.language}">Language</td>
+        <td th:text="${book.bookDetails.title}">Title</td>
+        <td th:text="${book.bookDetails.author}">Author</td>
+        <td th:text="${book.bookDetails.genre}">Genre</td>
+        <td th:text="${book.bookDetails.language}">Language</td>
         <td>
             <i th:if="${book.isAvailable}" class="fa fa-check" aria-hidden="true"></i>
             <i th:unless="${book.isAvailable}" class="fa fa-times" aria-hidden="true"></i>

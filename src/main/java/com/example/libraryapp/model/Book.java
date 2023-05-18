@@ -19,26 +19,8 @@ public class Book {
     @Column(name = "barcode")
     private Integer barcode;
 
-    @Column(name = "isbn", nullable = false, columnDefinition = "TEXT")
-    private String isbn;
-
-    @Column(name = "author", nullable = false)
-    private String author;
-
-    @Column(name = "title", nullable = false)
-    private String title;
-
-    @Column(name = "publisher", nullable = false)
-    private String publisher;
-
-    @Column(name = "number_of_pages")
-    private Integer numberOfPages;
-
-    @Column(name = "genre", nullable = false)
-    private String genre;
-
-    @Column(name = "language", nullable = false)
-    private String language;
+    @ManyToOne
+    private BookDetails bookDetails;
 
     @OneToOne
     @JoinColumn(name = "loan_id", unique = true)

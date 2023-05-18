@@ -1,6 +1,8 @@
 package com.example.libraryapp.controller;
 
 import com.example.libraryapp.model.Book;
+import com.example.libraryapp.model.BookDetails;
+import com.example.libraryapp.service.BookDetailsService;
 import com.example.libraryapp.service.BookService;
 import com.example.libraryapp.service.LoanService;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,12 @@ public class LibrarianBookController {
 
     private final BookService bookService;
     private final LoanService loanService;
+    private final BookDetailsService bookDetailsService;
 
-    public LibrarianBookController(BookService bookService, LoanService loanService) {
+    public LibrarianBookController(BookService bookService, LoanService loanService, BookDetailsService bookDetailsService) {
         this.bookService = bookService;
         this.loanService = loanService;
+        this.bookDetailsService = bookDetailsService;
     }
 
     private static final String REDIRECT_TO_ALL_BOOKS = "redirect:/librarian/books";
@@ -32,14 +36,17 @@ public class LibrarianBookController {
     }
 
     @GetMapping("new")
-    public String showNewBookForm(Model model) {
-        model.addAttribute("book", new Book());
+    public String showNewBookForm(Model model, @RequestParam("id") long bookDetailsId) {
+        Book newBook = new Book();
+        newBook.setBookDetails(bookDetailsService.findBookDetailsById(bookDetailsId));
+        model.addAttribute("book", newBook);
         return "librarian/new-book";
     }
 
     @PostMapping("books")
-    public String addNewBook(Book book) {
+    public String addNewBook(@ModelAttribute Book book) {
         book.setAvailable(true);
+        bookDetailsService.updateBookDetails(book.getBookDetails());
         bookService.addNewBook(book);
         return REDIRECT_TO_ALL_BOOKS;
     }
@@ -51,7 +58,7 @@ public class LibrarianBookController {
         if (!book.isAvailable()) {
             model.addAttribute("loan", loanService.findLoanById(book.getLoan().getId()));
         }
-        return "librarian/book-details";
+        return "librarian/single-book";
     }
 
     @GetMapping("/books/delete/{id}")
