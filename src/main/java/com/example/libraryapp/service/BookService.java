@@ -38,7 +38,7 @@ public class BookService {
                 .orElseThrow(() -> new BookNotFoundException("No book found with the following ID: %d".formatted(bookId)));
     }
 
-    public Book findBookByBarcode(Integer barcode) {
+    public Book findBookByBarcode(String barcode) {
         return bookRepository.findBookByBarcode(barcode)
                 .orElseThrow(() -> new BookNotFoundException("No book found with the following ISBN: %d".formatted(barcode)));
     }

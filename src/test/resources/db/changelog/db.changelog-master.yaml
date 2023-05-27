@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - changeSet:
+      id: book-details-table-init
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0001-book-details-table-init.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: test-book-details-data
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0002-test-book-details-data.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: book-table-init
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0003-book-table-init.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: test-book-data
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0004-test-book-data.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: library-card-table-init
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0005-library-card-table-init.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: test-library-card-data
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0006-test-library-card-data.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: loan-table-init
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0007-loan-table-init.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: test-loan-data
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0008-test-loan-data.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: user-table-init
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0009-user-table-init.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: test-user-data
+      author: Jakub Grotha
+      changes:
+        - sqlFile:
+            path: /changes/0010-test-user-data.sql
+            relativeToChangelogFile: true

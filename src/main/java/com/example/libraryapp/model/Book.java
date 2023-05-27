@@ -17,7 +17,7 @@ public class Book {
     private long id;
 
     @Column(name = "barcode")
-    private Integer barcode;
+    private String barcode;
 
     @ManyToOne
     private BookDetails bookDetails;

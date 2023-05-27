@@ -6,7 +6,6 @@ import com.example.libraryapp.repository.BookDetailsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookDetailsService {

@@ -66,7 +66,7 @@ public class LibrarianController {
     }
 
     @PostMapping("loan")
-    public String registerBookLoan(@RequestParam("book.barcode") Integer barcode,
+    public String registerBookLoan(@RequestParam("book.barcode") String barcode,
                                    @RequestParam("libraryCard.number") int libraryCardNumber,
                                    @RequestParam("duration") int duration) {
         Book bookToLoan = bookService.findBookByBarcode(barcode);
@@ -106,7 +106,7 @@ public class LibrarianController {
     }
 
     @GetMapping("return/register")
-    public String registerBookReturn(@RequestParam("barcode") Integer barcode) {
+    public String registerBookReturn(@RequestParam("barcode") String barcode) {
         Book bookToReturn = bookService.findBookByBarcode(barcode);
 
         if (bookToReturn != null) {
