@@ -19,7 +19,7 @@ public class LibraryCardService {
     }
 
     public LibraryCard findLibraryCardByCardNumber(int libraryCardNumber) {
-        return libraryCardRepository.findLibraryCardByCardNumber(libraryCardNumber)
+        return libraryCardRepository.findLibraryCardByLibraryCardNumber(libraryCardNumber)
                 .orElseThrow(() -> new LibraryCardNotFoundException("No library card found with the following number: %d".formatted(libraryCardNumber)));
     }
 }
