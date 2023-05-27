@@ -6,8 +6,6 @@ import com.example.libraryapp.model.BookDetails;
 import com.example.libraryapp.repository.BookDetailsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestConstructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,15 +14,11 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.context.TestConstructor.AutowireMode.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@SpringBootTest
-@TestConstructor(autowireMode = ALL)
 class BookDetailsServiceTest {
-
     private BookDetailsRepository bookDetailsRepository;
     private BookDetailsService bookDetailsService;
 

@@ -42,7 +42,7 @@ public class BookService {
 
     public Book findBookByBarcode(String barcode) {
         return bookRepository.findBookByBarcode(barcode)
-                .orElseThrow(() -> new BookNotFoundException("No book found with the following ISBN: %d".formatted(barcode)));
+                .orElseThrow(() -> new BookNotFoundException("No book found with the following barcode: %s".formatted(barcode)));
     }
 
     public boolean checkIfIsbnHasCorrectFormat(String isbn) {
