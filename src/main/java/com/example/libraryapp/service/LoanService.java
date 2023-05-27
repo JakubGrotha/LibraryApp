@@ -4,8 +4,10 @@ import com.example.libraryapp.exception.LoanNotFoundException;
 import com.example.libraryapp.model.Loan;
 import com.example.libraryapp.repository.LoanRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class LoanService {
     private final LoanRepository loanRepository;
 

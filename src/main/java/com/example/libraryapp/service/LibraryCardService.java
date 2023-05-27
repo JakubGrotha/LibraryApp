@@ -4,8 +4,10 @@ import com.example.libraryapp.exception.LibraryCardNotFoundException;
 import com.example.libraryapp.model.LibraryCard;
 import com.example.libraryapp.repository.LibraryCardRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class LibraryCardService {
 
     private final LibraryCardRepository libraryCardRepository;

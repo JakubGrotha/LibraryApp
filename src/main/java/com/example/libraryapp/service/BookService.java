@@ -4,10 +4,12 @@ import com.example.libraryapp.exception.BookNotFoundException;
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.repository.BookRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class BookService {
     private final BookRepository bookRepository;
 
