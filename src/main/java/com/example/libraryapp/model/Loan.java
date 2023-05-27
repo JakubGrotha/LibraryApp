@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -28,4 +29,28 @@ public class Loan {
 
     @Column(name = "return_date", nullable = false)
     private LocalDate returnDate;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Loan loan = (Loan) o;
+
+        if (id != loan.id) return false;
+        if (!Objects.equals(libraryCard, loan.libraryCard)) return false;
+        if (!Objects.equals(book, loan.book)) return false;
+        if (!Objects.equals(loanDate, loan.loanDate)) return false;
+        return Objects.equals(returnDate, loan.returnDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (libraryCard != null ? libraryCard.hashCode() : 0);
+        result = 31 * result + (book != null ? book.hashCode() : 0);
+        result = 31 * result + (loanDate != null ? loanDate.hashCode() : 0);
+        result = 31 * result + (returnDate != null ? returnDate.hashCode() : 0);
+        return result;
+    }
 }
