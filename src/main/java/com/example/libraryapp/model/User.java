@@ -41,10 +41,17 @@ public class User implements UserDetails {
     private LibraryCard libraryCard;
 
     @Column(name = "locked")
-    private Boolean locked;
+    private Boolean locked = false;
 
     @Column(name = "enabled")
-    private Boolean enabled;
+    private Boolean enabled = false;
+
+    public User(String name, String emailAddress, String password, UserRole userRole) {
+        this.name = name;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.role = userRole;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
