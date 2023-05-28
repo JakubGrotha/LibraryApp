@@ -21,7 +21,6 @@ public class LoginController {
 
     @GetMapping("/login")
     public String getLoginForm() {
-        System.out.println("Accessing the login page");
         return "login";
     }
 
@@ -39,11 +38,9 @@ public class LoginController {
 
     @GetMapping("/default")
     public String defaultAfterLogin(HttpServletRequest request) {
-        System.out.println("logged in");
         if (request.isUserInRole("ROLE_ADMIN")) {
             return "redirect:/admin";
         } else if (request.isUserInRole("ROLE_LIBRARIAN")) {
-            System.out.println("logged in as librarian");
             return "redirect:/librarian";
         } else {
             return "redirect:/user";

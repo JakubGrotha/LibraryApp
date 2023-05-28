@@ -1,13 +1,11 @@
 package com.example.libraryapp.controller;
 
 import com.example.libraryapp.exception.BookAlreadyBorrowedException;
-import com.example.libraryapp.model.Book;
-import com.example.libraryapp.model.LibraryCard;
-import com.example.libraryapp.model.Loan;
-import com.example.libraryapp.model.User;
+import com.example.libraryapp.model.*;
 import com.example.libraryapp.service.BookService;
 import com.example.libraryapp.service.LibraryCardService;
 import com.example.libraryapp.service.LoanService;
+import com.example.libraryapp.service.RegistrationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.libraryapp.model.UserRole.*;
 
 @Controller
 @RequestMapping("librarian")
@@ -25,13 +25,16 @@ public class LibrarianController {
     private final BookService bookService;
     private final LibraryCardService libraryCardService;
     private final LoanService loanService;
+    private final RegistrationService registrationService;
 
     public LibrarianController(BookService bookService,
                                LibraryCardService libraryCardService,
-                               LoanService loanService) {
+                               LoanService loanService,
+                               RegistrationService registrationService) {
         this.bookService = bookService;
         this.libraryCardService = libraryCardService;
         this.loanService = loanService;
+        this.registrationService = registrationService;
     }
 
     @GetMapping()
@@ -56,7 +59,8 @@ public class LibrarianController {
 
     @PostMapping("user")
     public String addNewUser(@ModelAttribute User user) {
-        // add implementation
+        user.setRole(USER);
+        registrationService.register(user);
         return REDIRECT_TO_MAIN_VIEW;
     }
 
@@ -91,11 +95,9 @@ public class LibrarianController {
             bookToLoan.setAvailable(false);
             bookService.updateBook(bookToLoan);
         } else {
-            throw new BookAlreadyBorrowedException("Book with the following barcode has already been borrowed: %d"
+            throw new BookAlreadyBorrowedException("Book with the following barcode has already been borrowed: %s"
                     .formatted(bookToLoan.getBarcode()));
         }
-
-
         return REDIRECT_TO_MAIN_VIEW;
     }
 

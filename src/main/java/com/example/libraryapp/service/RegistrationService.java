@@ -22,4 +22,8 @@ public class RegistrationService {
                 UserRole.USER
                 ));
     }
+
+    public void register(User user) {
+        userService.signUpUser(user);
+    }
 }

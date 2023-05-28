@@ -44,7 +44,7 @@ public class User implements UserDetails {
     private Boolean locked = false;
 
     @Column(name = "enabled")
-    private Boolean enabled = false;
+    private Boolean enabled = true;
 
     public User(String name, String emailAddress, String password, UserRole userRole) {
         this.name = name;
