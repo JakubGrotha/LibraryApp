@@ -20,11 +20,6 @@ public class LibrarianManagerService {
     }
 
     public List<User> getAllLibrarians() {
-        List<User> users = userRepository.findAll()
-                .stream()
-                .filter(user -> user.getRole().equals(LIBRARIAN))
-                .toList();
-        System.out.println(users);
-        return users;
+        return userRepository.findByUserRole(LIBRARIAN);
     }
 }
