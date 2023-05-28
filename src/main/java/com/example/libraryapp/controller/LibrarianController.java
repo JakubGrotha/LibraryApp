@@ -42,15 +42,6 @@ public class LibrarianController {
         return "librarian/main-view";
     }
 
-    @GetMapping("/return/check/")
-    public String registerReturn(@RequestParam("isbn") String isbn) {
-        if (bookService.checkIfIsbnHasCorrectFormat(isbn)) {
-            return "redirect:/return/%s".formatted(isbn);
-        } else {
-            return REDIRECT_TO_MAIN_VIEW;
-        }
-    }
-
     @GetMapping("user/new")
     public String getNewUserForm(Model model) {
         model.addAttribute("user", new User());

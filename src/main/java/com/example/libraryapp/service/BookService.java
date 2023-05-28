@@ -21,12 +21,6 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public void registerReturn(Book book) {
-        Book returnedBook = findBookById(book.getId());
-        bookRepository.delete(returnedBook);
-        bookRepository.save(book);
-    }
-
     public void deleteBookById(long bookId) {
         bookRepository.deleteById(bookId);
     }
@@ -43,10 +37,6 @@ public class BookService {
     public Book findBookByBarcode(String barcode) {
         return bookRepository.findBookByBarcode(barcode)
                 .orElseThrow(() -> new BookNotFoundException("No book found with the following barcode: %s".formatted(barcode)));
-    }
-
-    public boolean checkIfIsbnHasCorrectFormat(String isbn) {
-        return isbn.matches("/d/d/d-/d/d-/d/d-/d/d/d/d/d-/d");
     }
 
     public List<Book> getAllBooks() {
