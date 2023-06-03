@@ -42,4 +42,24 @@ public class BookService {
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
+    public List<Book> filteredBooks(String title, String author) {
+        List<Book> allBooks = getAllBooks();
+
+        if (title != null && !title.isEmpty()) {
+            allBooks = allBooks.stream()
+                    .filter(book -> book.getBookDetails().getTitle().toLowerCase()
+                            .contains(title.toLowerCase()))
+                    .toList();
+        }
+
+        if (author != null && !author.isEmpty()) {
+            allBooks = allBooks.stream()
+                    .filter(book -> book.getBookDetails().getAuthor().toLowerCase()
+                            .contains(author.toLowerCase()))
+                    .toList();
+        }
+
+        return allBooks;
+    }
 }
