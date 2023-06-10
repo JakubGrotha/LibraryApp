@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sd="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Books - librarian view</title>
@@ -47,10 +47,10 @@
 <table class="table table-hover table-dark text-center">
     <thead>
     <tr class="table-active">
-        <th scope="col">Title</th>
-        <th scope="col">Author</th>
-        <th scope="col">Genre</th>
-        <th scope="col">Language</th>
+        <th scope="col"><a class="sorted" sd:pagination-sort="bookDetails.title">Title</a></th>
+        <th scope="col"><a class="sorted" sd:pagination-sort="bookDetails.author">Author</a></th>
+        <th scope="col"><a class="sorted" sd:pagination-sort="bookDetails.genre">Genre</a></th>
+        <th scope="col"><a class="sorted" sd:pagination-sort="bookDetails.language">Language</a></th>
         <th scope="col">Available</th>
         <th scope="col">#</th>
     </tr>
@@ -69,7 +69,20 @@
     </tr>
     </tbody>
 </table>
-
+<div class="row">
+    <div class="col-sm-4">
+        <div sd:pagination-summary="">info</div>
+    </div>
+    <div class="col-sm-2">
+        Show <span sd:page-size-selector="javascript"></span> entries
+    </div>
+    <div class="col-sm-6">
+        <nav class="pull-right">
+            <ul class="pagination" sd:pagination="full">
+            </ul>
+        </nav>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

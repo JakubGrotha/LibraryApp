@@ -1,10 +1,12 @@
 package com.example.libraryapp.controller;
 
 import com.example.libraryapp.model.Book;
-import com.example.libraryapp.model.BookDetails;
 import com.example.libraryapp.service.BookDetailsService;
 import com.example.libraryapp.service.BookService;
 import com.example.libraryapp.service.LoanService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +33,9 @@ public class LibrarianBookController {
     @GetMapping("/books")
     public String getAllBooks(Model model,
                               @RequestParam(value = "title", required = false) String title,
-                              @RequestParam(value = "author", required = false) String author) {
-        List<Book> books = bookService.filteredBooks(title, author);
+                              @RequestParam(value = "author", required = false) String author,
+                              @SortDefault("bookDetails.title") Pageable pageable) {
+        Page<Book> books = bookService.filteredBooks(pageable, title, author);
         model.addAttribute("books", books);
         model.addAttribute("title", title);
         model.addAttribute("author", author);

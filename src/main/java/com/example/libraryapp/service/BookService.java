@@ -3,10 +3,10 @@ package com.example.libraryapp.service;
 import com.example.libraryapp.exception.BookNotFoundException;
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.repository.BookRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -39,27 +39,22 @@ public class BookService {
                 .orElseThrow(() -> new BookNotFoundException("No book found with the following barcode: %s".formatted(barcode)));
     }
 
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
-    }
+    public Page<Book> filteredBooks(Pageable pageable, String title, String author) {
+        boolean titleCheck = title != null && !title.isBlank();
+        boolean authorCheck = author != null && !author.isBlank();
 
-    public List<Book> filteredBooks(String title, String author) {
-        List<Book> allBooks = getAllBooks();
-
-        if (title != null && !title.isEmpty()) {
-            allBooks = allBooks.stream()
-                    .filter(book -> book.getBookDetails().getTitle().toLowerCase()
-                            .contains(title.toLowerCase()))
-                    .toList();
+        if (titleCheck) {
+            if (authorCheck) {
+                return bookRepository.findAllByBookDetailsTitleAndBookDetailsAuthor(pageable, title, author);
+            } else {
+                return bookRepository.findAllByBookDetailsTitle(pageable, title);
+            }
         }
 
-        if (author != null && !author.isEmpty()) {
-            allBooks = allBooks.stream()
-                    .filter(book -> book.getBookDetails().getAuthor().toLowerCase()
-                            .contains(author.toLowerCase()))
-                    .toList();
+        if (authorCheck) {
+            return bookRepository.findAllByBookDetailsAuthor(pageable, author);
         }
 
-        return allBooks;
+        return bookRepository.findAll(pageable);
     }
 }
