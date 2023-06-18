@@ -34,13 +34,14 @@ public class LibrarianBookDetailsController {
 
     @GetMapping("new-book")
     public String getNewBookDetailsForm(Model model, @RequestParam("book.isbn") String isbn) {
+        isbn = isbn.replace("-", "");
         try {
             BookDetails bookDetails = bookDetailsService.findBookDetailsByIsbn(isbn);
             return "redirect:/librarian/new?id=%d".formatted(bookDetails.getId());
         } catch (BookDetailsNotFoundException e) {
-            BookDetails newBookDetails = new BookDetails();
-            newBookDetails.setIsbn(isbn);
-            model.addAttribute("bookDetails", newBookDetails);
+            BookDetails googleBooksBasedBookDetails = bookDetailsService.findBookDetailsInGoogleBooksApiUsingIsbn(isbn);
+            googleBooksBasedBookDetails.setIsbn(isbn);
+            model.addAttribute("bookDetails", googleBooksBasedBookDetails);
         }
         return "librarian/new-book-details";
     }

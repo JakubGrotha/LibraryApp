@@ -1,11 +1,13 @@
 package com.example.libraryapp.service;
 
+import com.example.libraryapp.utils.ApiKeyRetriever;
 import com.example.libraryapp.exception.BookDetailsNotFoundException;
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.model.BookDetails;
 import com.example.libraryapp.repository.BookDetailsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +27,7 @@ class BookDetailsServiceTest {
     @BeforeEach
     void setup() {
         bookDetailsRepository = mock(BookDetailsRepository.class);
-        bookDetailsService = new BookDetailsService(bookDetailsRepository);
+        bookDetailsService = new BookDetailsService(bookDetailsRepository, new RestTemplate(), new ApiKeyRetriever());
     }
 
     @Test
