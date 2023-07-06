@@ -10,11 +10,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.*;
 
@@ -78,4 +81,111 @@ class BookServiceTest {
                 .isInstanceOf(BookNotFoundException.class)
                 .hasMessage("No book found with the following barcode: %s".formatted(barcode));
     }
+
+    @Test
+    void filteredBooksReturnsAllBooksIfBothCriteriaAreNull() {
+        // GIVEN
+        List<Book> allBooks = getListOfAllBooks();
+        Pageable pageable = Pageable.ofSize(10).withPage(1);
+        // WHEN
+        when(bookRepository.findAll(pageable)).thenReturn(new PageImpl<>(allBooks));
+        Page<Book> result = bookService.filteredBooks(pageable, null, null);
+        // THEN
+        assertThat(result)
+                .containsAll(allBooks)
+                .hasSize(6);
+    }
+
+    @Test
+    void filteredBooksReturnsBooksWithOnlyFilteredTitle() {
+        // GIVEN
+        String titleToFilter = "Correct";
+        List<Book> allBooks = getListOfAllBooks();
+        List<Book> booksWithFilteredTitle = allBooks.stream()
+                .filter(book -> book.getBookDetails().getTitle().toLowerCase()
+                        .contains(titleToFilter.toLowerCase()))
+                .toList();
+        Pageable pageable = Pageable.ofSize(10).withPage(1);
+        // WHEN
+        when(bookRepository.findAllByBookDetailsTitle(pageable, titleToFilter))
+                .thenReturn(new PageImpl<>(booksWithFilteredTitle));
+        Page<Book> result = bookService.filteredBooks(pageable, "Correct", null);
+        // THEN
+        assertThat(result)
+                .containsAll(booksWithFilteredTitle)
+                .hasSize(4);
+    }
+
+    @Test
+    void filteredBooksReturnsBooksWithOnlyFilteredAuthor() {
+        // GIVEN
+        String authorToFilter = "Correct";
+        List<Book> allBooks = getListOfAllBooks();
+        List<Book> booksWithFilteredTitle = allBooks.stream()
+                .filter(book -> book.getBookDetails().getTitle().toLowerCase()
+                        .contains(authorToFilter.toLowerCase()))
+                .toList();
+        Pageable pageable = Pageable.ofSize(10).withPage(1);
+        // WHEN
+        when(bookRepository.findAllByBookDetailsAuthor(pageable, authorToFilter))
+                .thenReturn(new PageImpl<>(booksWithFilteredTitle));
+        Page<Book> result = bookService.filteredBooks(pageable, null, "Correct");
+        // THEN
+        assertThat(result)
+                .containsAll(booksWithFilteredTitle)
+                .hasSize(4);
+    }
+
+    @Test
+    void filteredBooksReturnsBooksWithBothFilteredAuthorAndFilteredTitle() {
+        // GIVEN
+        String authorToFilter = "Correct";
+        String titleToFilter = "Correct";
+        List<Book> allBooks = getListOfAllBooks();
+        List<Book> booksWithFilteredTitle = allBooks.stream()
+                .filter(book -> book.getBookDetails().getTitle().toLowerCase()
+                        .contains(titleToFilter.toLowerCase()))
+                .filter(book -> book.getBookDetails().getAuthor().toLowerCase()
+                        .contains(authorToFilter.toLowerCase()))
+                .toList();
+        Pageable pageable = Pageable.ofSize(10).withPage(1);
+        // WHEN
+        when(bookRepository.findAllByBookDetailsTitleAndBookDetailsAuthor(pageable, authorToFilter, titleToFilter))
+                .thenReturn(new PageImpl<>(booksWithFilteredTitle));
+        Page<Book> result = bookService.filteredBooks(pageable, "Correct", "Correct");
+        // THEN
+        assertThat(result)
+                .containsAll(booksWithFilteredTitle)
+                .hasSize(3);
+    }
+
+    private List<Book> getListOfAllBooks() {
+        return List.of(
+                new Book(1, "123123", new BookDetails(
+                        1, "123-123", "Correct Author", "correct Title",
+                        null, null, null, null, null
+                ), null, true),
+                new Book(2, "222222", new BookDetails(
+                        2, "222-123", "Correct Aut", "correct Ti",
+                        null, null, null, null, null
+                ), null, false),
+                new Book(3, "123123454", new BookDetails(
+                        2, "221-123", "New Correct Aut", "New correct Ti",
+                        null, null, null, null, null
+                ), null, false),
+                new Book(3, "123123454", new BookDetails(
+                        2, "221-123", "New Correct Aut", "New Ti",
+                        null, null, null, null, null
+                ), null, false),
+                new Book(3, "123123454", new BookDetails(
+                        2, "221-123", "New Aut", "New Correct Ti",
+                        null, null, null, null, null
+                ), null, false),
+                new Book(4, "222111", new BookDetails(
+                        2, "212-123", "Random author", "Random Title",
+                        null, null, null, null, null
+                ), null, false)
+        );
+    }
+
 }

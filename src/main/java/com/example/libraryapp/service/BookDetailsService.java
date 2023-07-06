@@ -63,7 +63,7 @@ public class BookDetailsService {
                 new ParameterizedTypeReference<GoogleBooksDetails>() {
                 });
         try {
-            VolumeInfo volumeInfo = Objects.requireNonNull(response.getBody()).items().get(0).volumeInfo();
+            VolumeInfo volumeInfo = response.getBody().items().get(0).volumeInfo();
             BookDetails bookDetails = new BookDetails();
             bookDetails.setIsbn(isbn);
             bookDetails.setAuthor(volumeInfo.authors().get(0));
@@ -72,7 +72,7 @@ public class BookDetailsService {
             bookDetails.setNumberOfPages(volumeInfo.pageCount());
             bookDetails.setLanguage(volumeInfo.language());
             return bookDetails;
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             return new BookDetails();
         }
     }

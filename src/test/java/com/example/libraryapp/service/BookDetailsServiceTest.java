@@ -80,9 +80,9 @@ class BookDetailsServiceTest {
 
     @Test
     void findBookDetailsByIdThrowsBookDetailsNotFoundExceptionWhenGivenAnEmptyOptional() {
-        // given
+        // GIVEN
         long bookId = 0;
-        // when
+        // WHEN
         when(bookDetailsRepository.findById(bookId)).thenReturn(Optional.empty());
         // then
         assertThatThrownBy(() -> bookDetailsService.findBookDetailsById(bookId))
@@ -93,16 +93,16 @@ class BookDetailsServiceTest {
 
     @Test
     void findBookDetailsByIsbnReturnsCorrectBookDetailsWhenGivenCorrectIsbn() {
-        // given
+        // GIVEN
         String bookIsbn = "978-0-261-10221-7";
         BookDetails bookDetailsFromDatabase = new BookDetails(1, bookIsbn,
                 "J.R.R. Tolkien", "The Hobbit",
                 "HarperCollinsPublisher", 389,
                 "fantasy", "English", new ArrayList<Book>());
-        // when
+        // WHEN
         when(bookDetailsRepository.findBookByIsbn(bookIsbn)).thenReturn(Optional.of(bookDetailsFromDatabase));
         BookDetails bookDetails = bookDetailsService.findBookDetailsByIsbn(bookIsbn);
-        // then
+        // THEN
         assertAll("book details",
                 () -> assertEquals(bookDetailsFromDatabase.getId(), bookDetails.getId()),
                 () -> assertEquals(bookDetailsFromDatabase.getIsbn(), bookDetails.getIsbn()),
@@ -114,14 +114,25 @@ class BookDetailsServiceTest {
 
     @Test
     void findBookDetailsByIsbnThrowsBookDetailsNotFoundExceptionWhenGivenAnEmptyOptional() {
-        // given
+        // GIVEN
         String bookIsbn = "000-000-000-00";
-        // when
+        // WHEN
         when(bookDetailsRepository.findBookByIsbn(bookIsbn)).thenReturn(Optional.empty());
-        // then
+        // THEN
         assertThatThrownBy(() -> bookDetailsService.findBookDetailsByIsbn(bookIsbn))
                 .isInstanceOf(BookDetailsNotFoundException.class)
                 .hasMessage("No book found with the following ISBN: %s"
                         .formatted(bookIsbn));
+    }
+
+    @Test
+    void findingBookDetailsReturnsEmptyBookDetailsWhenResponseIsEmpty() {
+        // GIVEN
+        String nonExistingIsbn = "xyz";
+        BookDetails expectedBookDetails = new BookDetails();
+        // WHEN
+        BookDetails bookDetails = bookDetailsService.findBookDetailsInGoogleBooksApiUsingIsbn(nonExistingIsbn);
+        // THEN
+        assertEquals(bookDetails, expectedBookDetails);
     }
 }
