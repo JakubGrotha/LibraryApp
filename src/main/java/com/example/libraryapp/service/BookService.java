@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static java.lang.StringTemplate.STR;
+
 @Service
 @Transactional
 public class BookService {
@@ -31,7 +33,7 @@ public class BookService {
 
     public Book findBookById(long bookId) {
         return bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException("No book found with the following ID: %d".formatted(bookId)));
+                .orElseThrow(() -> new BookNotFoundException(STR."No book found with the following ID: \{bookId}"));
     }
 
     public Book findBookByBarcode(String barcode) {
