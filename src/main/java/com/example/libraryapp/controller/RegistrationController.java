@@ -23,9 +23,11 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String register(@RequestParam("name") String name,
-                         @RequestParam("email") String email,
-                         @RequestParam("password") String password) {
+    public String register(
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password
+    ) {
         RegistrationRequest registrationRequest = new RegistrationRequest(name, email, password);
         registrationService.register(registrationRequest);
         return "redirect:/";

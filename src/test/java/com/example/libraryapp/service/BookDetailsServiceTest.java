@@ -1,6 +1,5 @@
 package com.example.libraryapp.service;
 
-import com.example.libraryapp.utils.ApiKeyRetriever;
 import com.example.libraryapp.exception.BookDetailsNotFoundException;
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.model.BookDetails;
@@ -27,7 +26,7 @@ class BookDetailsServiceTest {
     @BeforeEach
     void setup() {
         bookDetailsRepository = mock(BookDetailsRepository.class);
-        bookDetailsService = new BookDetailsService(bookDetailsRepository, new RestTemplate(), new ApiKeyRetriever());
+        bookDetailsService = new BookDetailsService(bookDetailsRepository);
     }
 
     @Test
@@ -123,16 +122,5 @@ class BookDetailsServiceTest {
                 .isInstanceOf(BookDetailsNotFoundException.class)
                 .hasMessage("No book found with the following ISBN: %s"
                         .formatted(bookIsbn));
-    }
-
-    @Test
-    void findingBookDetailsReturnsEmptyBookDetailsWhenResponseIsEmpty() {
-        // GIVEN
-        String nonExistingIsbn = "xyz";
-        BookDetails expectedBookDetails = new BookDetails();
-        // WHEN
-        BookDetails bookDetails = bookDetailsService.findBookDetailsInGoogleBooksApiUsingIsbn(nonExistingIsbn);
-        // THEN
-        assertEquals(bookDetails, expectedBookDetails);
     }
 }

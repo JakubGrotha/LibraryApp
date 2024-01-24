@@ -3,17 +3,18 @@ package com.example.libraryapp.controller;
 import com.example.libraryapp.exception.BookDetailsNotFoundException;
 import com.example.libraryapp.model.BookDetails;
 import com.example.libraryapp.service.BookDetailsService;
+import com.example.libraryapp.service.GoogleBooksApiService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("librarian")
+@RequiredArgsConstructor
 public class LibrarianBookDetailsController {
     private final BookDetailsService bookDetailsService;
-    public LibrarianBookDetailsController(BookDetailsService bookDetailsService) {
-        this.bookDetailsService = bookDetailsService;
-    }
+    private final GoogleBooksApiService googleBooksApiService;
 
     @GetMapping("/book-details")
     public String getBookInformation(Model model) {
@@ -39,7 +40,8 @@ public class LibrarianBookDetailsController {
             BookDetails bookDetails = bookDetailsService.findBookDetailsByIsbn(isbn);
             return "redirect:/librarian/new?id=%d".formatted(bookDetails.getId());
         } catch (BookDetailsNotFoundException e) {
-            BookDetails googleBooksBasedBookDetails = bookDetailsService.findBookDetailsInGoogleBooksApiUsingIsbn(isbn);
+            BookDetails googleBooksBasedBookDetails = googleBooksApiService
+                    .findBookDetailsInGoogleBooksApiUsingIsbn(isbn);
             googleBooksBasedBookDetails.setIsbn(isbn);
             model.addAttribute("bookDetails", googleBooksBasedBookDetails);
         }

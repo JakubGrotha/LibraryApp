@@ -51,6 +51,7 @@ public class LibrarianController {
     @PostMapping("user")
     public String addNewUser(@ModelAttribute User user) {
         user.setRole(USER);
+        user.setPassword("123"); // TODO: Send a link to user to make them change the password
         registrationService.register(user);
         return REDIRECT_TO_MAIN_VIEW;
     }
