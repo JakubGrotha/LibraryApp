@@ -1,9 +1,9 @@
 package com.example.libraryapp.controller;
 
 import com.example.libraryapp.model.User;
-import com.example.libraryapp.model.UserRole;
 import com.example.libraryapp.service.LibrarianManagerService;
 import com.example.libraryapp.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +15,11 @@ import static com.example.libraryapp.model.UserRole.*;
 
 @Controller
 @RequestMapping("admin/librarian-manager")
+@RequiredArgsConstructor
 public class AdminLibrarianManagerController {
 
     private final LibrarianManagerService librarianManagerService;
     private final UserService userService;
-
-    public AdminLibrarianManagerController(LibrarianManagerService librarianManagerService, UserService userService) {
-        this.librarianManagerService = librarianManagerService;
-        this.userService = userService;
-    }
 
     @GetMapping()
     public String getLibrarianManagerView() {

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("librarian")
 @RequiredArgsConstructor
 public class LibrarianBookDetailsController {
+
     private final BookDetailsService bookDetailsService;
     private final GoogleBooksApiService googleBooksApiService;
 

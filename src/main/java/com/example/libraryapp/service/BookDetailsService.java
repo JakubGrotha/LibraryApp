@@ -14,6 +14,7 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class BookDetailsService {
+
     private final BookDetailsRepository bookDetailsRepository;
 
     public List<BookDetails> getAllBookDetails() {

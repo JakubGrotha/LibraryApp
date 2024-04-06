@@ -3,6 +3,7 @@ package com.example.libraryapp.service;
 import com.example.libraryapp.exception.BookNotFoundException;
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.repository.BookRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,10 @@ import static java.lang.StringTemplate.STR;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class BookService {
-    private final BookRepository bookRepository;
 
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+    private final BookRepository bookRepository;
 
     public void addNewBook(Book book) {
         bookRepository.save(book);

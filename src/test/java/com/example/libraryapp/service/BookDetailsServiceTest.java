@@ -6,7 +6,6 @@ import com.example.libraryapp.model.BookDetails;
 import com.example.libraryapp.repository.BookDetailsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;

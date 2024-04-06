@@ -4,6 +4,7 @@ import com.example.libraryapp.model.Book;
 import com.example.libraryapp.service.BookDetailsService;
 import com.example.libraryapp.service.BookService;
 import com.example.libraryapp.service.LoanService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
@@ -13,18 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("librarian")
+@RequiredArgsConstructor
 public class LibrarianBookController {
 
     private final BookService bookService;
     private final LoanService loanService;
     private final BookDetailsService bookDetailsService;
-
-    public LibrarianBookController(BookService bookService, LoanService loanService, BookDetailsService bookDetailsService) {
-        this.bookService = bookService;
-        this.loanService = loanService;
-        this.bookDetailsService = bookDetailsService;
-    }
-
     private static final String REDIRECT_TO_ALL_BOOKS = "redirect:/librarian/books";
 
     @GetMapping("/books")

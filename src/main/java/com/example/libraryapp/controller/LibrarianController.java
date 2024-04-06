@@ -6,6 +6,7 @@ import com.example.libraryapp.service.BookService;
 import com.example.libraryapp.service.LibraryCardService;
 import com.example.libraryapp.service.LoanService;
 import com.example.libraryapp.service.RegistrationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import static com.example.libraryapp.model.UserRole.*;
 
 @Controller
 @RequestMapping("librarian")
+@RequiredArgsConstructor
 public class LibrarianController {
 
     private static final String REDIRECT_TO_MAIN_VIEW = "redirect:/librarian";
@@ -26,16 +28,6 @@ public class LibrarianController {
     private final LibraryCardService libraryCardService;
     private final LoanService loanService;
     private final RegistrationService registrationService;
-
-    public LibrarianController(BookService bookService,
-                               LibraryCardService libraryCardService,
-                               LoanService loanService,
-                               RegistrationService registrationService) {
-        this.bookService = bookService;
-        this.libraryCardService = libraryCardService;
-        this.loanService = loanService;
-        this.registrationService = registrationService;
-    }
 
     @GetMapping()
     public String getLibrarianMainMenu() {

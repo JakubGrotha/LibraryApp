@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class GoogleBooksApiService {
 
     private final GoogleBooksApiConfiguration configuration;

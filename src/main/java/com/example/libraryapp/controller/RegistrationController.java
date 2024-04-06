@@ -2,6 +2,7 @@ package com.example.libraryapp.controller;
 
 import com.example.libraryapp.model.RegistrationRequest;
 import com.example.libraryapp.service.RegistrationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/register")
+@RequiredArgsConstructor
 public class RegistrationController {
-    private final RegistrationService registrationService;
 
-    public RegistrationController(RegistrationService registrationService) {
-        this.registrationService = registrationService;
-    }
+    private final RegistrationService registrationService;
 
     @GetMapping()
     public String getRegistrationForm() {
