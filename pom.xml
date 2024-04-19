@@ -15,7 +15,7 @@
     <description>LibraryApp</description>
 
     <properties>
-        <java.version>21</java.version>
+        <java.version>22</java.version>
         <jackson-core.version>2.14.1</jackson-core.version>
         <lombok.version>1.18.30</lombok.version>
     </properties>

@@ -18,29 +18,36 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class LoanServiceTest {
+
     private LoanRepository loanRepository;
+    private BookService bookService;
+    private LibraryCardService libraryCardService;
     private LoanService loanService;
 
     @BeforeEach
     void setup() {
         loanRepository = mock(LoanRepository.class);
-        loanService = new LoanService(loanRepository);
+        bookService = mock(BookService.class);
+        libraryCardService = mock(LibraryCardService.class);
+        loanService = new LoanService(loanRepository, bookService, libraryCardService);
     }
 
     @Test
     void findLoanByIdReturnsCorrectLoanObject() {
         // given
         long loanId = 1L;
-        Loan loanFromDatabase = new Loan(
-                loanId,
-                new LibraryCard(),
-                new Book(),
-                LocalDate.of(2023, 7, 10),
-                LocalDate.of(2023, 10, 10)
-        );
+        Loan loanFromDatabase = Loan.builder()
+                .id(loanId)
+                .libraryCard(new LibraryCard())
+                .book(new Book())
+                .loanDate(LocalDate.of(2023, 7, 10))
+                .returnDate(LocalDate.of(2023, 10, 10))
+                .build();
+
         // when
         when(loanRepository.findById(loanId)).thenReturn(Optional.of(loanFromDatabase));
         Loan loan = loanService.findLoanById(loanId);
+
         // then
         assertAll("loan",
                 () -> assertEquals(loanFromDatabase.getId(), loan.getId()),

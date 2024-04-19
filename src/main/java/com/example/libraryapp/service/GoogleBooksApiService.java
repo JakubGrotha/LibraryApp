@@ -42,7 +42,7 @@ public class GoogleBooksApiService {
 
         BookDetails bookDetails = new BookDetails();
         bookDetails.setIsbn(isbn);
-        bookDetails.setAuthor(volumeInfo.authors().get(0));
+        bookDetails.setAuthor(volumeInfo.authors().getFirst());
         bookDetails.setTitle(volumeInfo.title());
         bookDetails.setPublisher(volumeInfo.publisher());
         bookDetails.setNumberOfPages(volumeInfo.pageCount());

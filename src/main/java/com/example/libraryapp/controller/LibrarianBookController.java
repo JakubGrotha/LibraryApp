@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("librarian")
+@RequestMapping("/librarian")
 @RequiredArgsConstructor
 public class LibrarianBookController {
 
@@ -34,7 +34,7 @@ public class LibrarianBookController {
         return "librarian/books";
     }
 
-    @GetMapping("new")
+    @GetMapping("/new")
     public String showNewBookForm(Model model, @RequestParam("id") long bookDetailsId) {
         Book newBook = new Book();
         newBook.setBookDetails(bookDetailsService.findBookDetailsById(bookDetailsId));
@@ -42,7 +42,7 @@ public class LibrarianBookController {
         return "librarian/new-book";
     }
 
-    @PostMapping("books")
+    @PostMapping("/books")
     public String addNewBook(@ModelAttribute Book book) {
         book.setAvailable(true);
         bookDetailsService.updateBookDetails(book.getBookDetails());
@@ -67,13 +67,13 @@ public class LibrarianBookController {
     }
 
     @GetMapping("/books/edition-form/{id}")
-    public String getBookEditionForm(@PathVariable long id, Model model) {
+    public String getBookEditionForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("book", bookService.findBookById(id));
         return "librarian/book-edition";
     }
 
-    @PostMapping("/books/edition/{id}")
-    public String bookPutMethod(@PathVariable long id, @ModelAttribute Book book) {
+    @PostMapping("/books/edition")
+    public String bookPutMethod(@ModelAttribute Book book) {
         bookService.updateBook(book);
         return REDIRECT_TO_ALL_BOOKS;
     }

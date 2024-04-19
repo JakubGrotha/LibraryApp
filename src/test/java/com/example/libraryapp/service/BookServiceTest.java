@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class BookServiceTest {
+
     @Mock
     private BookRepository bookRepository;
     @InjectMocks

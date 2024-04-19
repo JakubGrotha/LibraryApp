@@ -23,7 +23,7 @@ public class LibrarianBookDetailsController {
         return "librarian/book-details";
     }
 
-    @GetMapping("book-details/{id}")
+    @GetMapping("/book-details/{id}")
     public String getBookDetailsOfASingleBook(@PathVariable("id") long bookDetailsId, Model model) {
         model.addAttribute("bookDetails", bookDetailsService.findBookDetailsById(bookDetailsId));
         return "librarian/single-book-details";
@@ -34,7 +34,7 @@ public class LibrarianBookDetailsController {
         return "librarian/isbn-form";
     }
 
-    @GetMapping("new-book")
+    @GetMapping("/new-book")
     public String getNewBookDetailsForm(Model model, @RequestParam("book.isbn") String isbn) {
         isbn = isbn.replace("-", "");
         try {
@@ -49,7 +49,7 @@ public class LibrarianBookDetailsController {
         return "librarian/new-book-details";
     }
 
-    @PostMapping("book-details")
+    @PostMapping("/book-details")
     public String addNewBookDetails(@ModelAttribute BookDetails bookDetails) {
         bookDetailsService.addNewBookDetails(bookDetails);
         return "redirect:/librarian/new?id=%d".formatted(bookDetails.getId());

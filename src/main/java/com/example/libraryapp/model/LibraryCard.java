@@ -29,4 +29,8 @@ public class LibraryCard {
 
     @Column(name="is_active")
     private boolean isActive;
+
+    public void addNewLoan(Loan loan) {
+        bookLoans.add(loan);
+    }
 }

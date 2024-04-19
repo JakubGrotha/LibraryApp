@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="">
 <head>
     <meta charset="UTF-8">
     <title>Wydarzenie</title>
@@ -112,7 +112,7 @@
     <a th:href="@{/librarian/books/delete/{bookId}(bookId=${book.id})}" class="btn btn-danger">
         DELETE
     </a>
-    <a th:href="@{/librarian/books/edition-form/{id}/(id=${book.id})}" class="btn btn-primary">
+    <a th:href="@{/librarian/books/edition-form/{id}(id=${book.id})}" class="btn btn-primary">
         EDIT
     </a>
 </div>
