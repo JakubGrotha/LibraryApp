@@ -6,7 +6,6 @@ import com.example.libraryapp.repository.BookDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 

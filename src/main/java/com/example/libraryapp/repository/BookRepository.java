@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
+
     Optional<Book> findBookByBarcode(@Param("barcode") String barcode);
 
     @Query("SELECT b FROM Book b WHERE LOWER(b.bookDetails.title) LIKE LOWER(CONCAT('%', :title, '%'))")

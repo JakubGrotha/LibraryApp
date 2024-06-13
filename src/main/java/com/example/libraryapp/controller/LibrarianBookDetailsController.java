@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("librarian")
+@RequestMapping("/librarian")
 @RequiredArgsConstructor
 public class LibrarianBookDetailsController {
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static com.example.libraryapp.model.UserRole.*;
 
 @Controller
-@RequestMapping("admin/librarian-manager")
+@RequestMapping("/admin/librarian-manager")
 @RequiredArgsConstructor
 public class AdminLibrarianManagerController {
 
@@ -26,13 +26,13 @@ public class AdminLibrarianManagerController {
         return "admin/librarian-manager";
     }
 
-    @GetMapping("librarians")
+    @GetMapping("/librarians")
     public String getAllLibrarians(Model model) {
         model.addAttribute("librarians", librarianManagerService.getAllLibrarians());
         return "admin/all-librarians";
     }
 
-    @GetMapping("new-librarian")
+    @GetMapping("/new-librarian")
     public String getLibrarianCreationForm(Model model) {
         model.addAttribute("librarian", new User());
         return "admin/new-librarian";
