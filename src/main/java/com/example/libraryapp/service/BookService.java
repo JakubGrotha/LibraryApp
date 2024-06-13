@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static java.lang.StringTemplate.STR;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,13 +29,15 @@ public class BookService {
     }
 
     public Book findBookById(long bookId) {
-        return bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException(STR."No book found with the following ID: \{bookId}"));
+        return bookRepository.findById(bookId).orElseThrow(
+                () -> new BookNotFoundException("No book found with the following ID: %s".formatted(bookId))
+        );
     }
 
     public Book findBookByBarcode(String barcode) {
-        return bookRepository.findBookByBarcode(barcode)
-                .orElseThrow(() -> new BookNotFoundException("No book found with the following barcode: %s".formatted(barcode)));
+        return bookRepository.findBookByBarcode(barcode).orElseThrow(
+                () -> new BookNotFoundException("No book found with the following barcode: %s".formatted(barcode))
+        );
     }
 
     public Page<Book> filteredBooks(Pageable pageable, String title, String author) {

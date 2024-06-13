@@ -26,6 +26,7 @@ class BookServiceTest {
 
     @Mock
     private BookRepository bookRepository;
+
     @InjectMocks
     private BookService bookService;
 
@@ -99,7 +100,7 @@ class BookServiceTest {
 
     @Test
     void filteredBooksReturnsBooksWithOnlyFilteredTitle() {
-        // GIVEN
+        // given
         String titleToFilter = "Correct";
         List<Book> allBooks = getListOfAllBooks();
         List<Book> booksWithFilteredTitle = allBooks.stream()
@@ -107,11 +108,11 @@ class BookServiceTest {
                         .contains(titleToFilter.toLowerCase()))
                 .toList();
         Pageable pageable = Pageable.ofSize(10).withPage(1);
-        // WHEN
+        // when
         when(bookRepository.findAllByBookDetailsTitle(pageable, titleToFilter))
                 .thenReturn(new PageImpl<>(booksWithFilteredTitle));
         Page<Book> result = bookService.filteredBooks(pageable, "Correct", null);
-        // THEN
+        // then
         assertThat(result)
                 .containsAll(booksWithFilteredTitle)
                 .hasSize(4);
@@ -119,7 +120,7 @@ class BookServiceTest {
 
     @Test
     void filteredBooksReturnsBooksWithOnlyFilteredAuthor() {
-        // GIVEN
+        // given
         String authorToFilter = "Correct";
         List<Book> allBooks = getListOfAllBooks();
         List<Book> booksWithFilteredTitle = allBooks.stream()
@@ -127,11 +128,11 @@ class BookServiceTest {
                         .contains(authorToFilter.toLowerCase()))
                 .toList();
         Pageable pageable = Pageable.ofSize(10).withPage(1);
-        // WHEN
+        // when
         when(bookRepository.findAllByBookDetailsAuthor(pageable, authorToFilter))
                 .thenReturn(new PageImpl<>(booksWithFilteredTitle));
         Page<Book> result = bookService.filteredBooks(pageable, null, "Correct");
-        // THEN
+        // then
         assertThat(result)
                 .containsAll(booksWithFilteredTitle)
                 .hasSize(4);
@@ -139,7 +140,7 @@ class BookServiceTest {
 
     @Test
     void filteredBooksReturnsBooksWithBothFilteredAuthorAndFilteredTitle() {
-        // GIVEN
+        // gvien
         String authorToFilter = "Correct";
         String titleToFilter = "Correct";
         List<Book> allBooks = getListOfAllBooks();
@@ -150,11 +151,11 @@ class BookServiceTest {
                         .contains(authorToFilter.toLowerCase()))
                 .toList();
         Pageable pageable = Pageable.ofSize(10).withPage(1);
-        // WHEN
+        // when
         when(bookRepository.findAllByBookDetailsTitleAndBookDetailsAuthor(pageable, authorToFilter, titleToFilter))
                 .thenReturn(new PageImpl<>(booksWithFilteredTitle));
         Page<Book> result = bookService.filteredBooks(pageable, "Correct", "Correct");
-        // THEN
+        // then
         assertThat(result)
                 .containsAll(booksWithFilteredTitle)
                 .hasSize(3);

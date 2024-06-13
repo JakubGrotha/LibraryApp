@@ -2,23 +2,18 @@ package com.example.libraryapp.repository;
 
 import com.example.libraryapp.model.LibraryCard;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestConstructor;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.context.TestConstructor.AutowireMode.*;
 
 @SpringBootTest
-@TestConstructor(autowireMode = ALL)
 class LibraryCardRepositoryTest {
 
-    private final LibraryCardRepository libraryCardRepository;
-
-    LibraryCardRepositoryTest(LibraryCardRepository libraryCardRepository) {
-        this.libraryCardRepository = libraryCardRepository;
-    }
+    @Autowired
+    private LibraryCardRepository libraryCardRepository;
 
     @Test
     void findLibraryCardByLibraryCardNumberReturnsCorrectLibraryCardObject() {

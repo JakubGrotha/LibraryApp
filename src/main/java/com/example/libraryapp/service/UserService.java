@@ -21,7 +21,7 @@ public class UserService implements UserDetailsService {
     public void signUpUser(User user) {
         boolean userAlreadyExists = userRepository.findByEmailAddress(user.getEmailAddress()).isPresent();
         if (userAlreadyExists) {
-            throw new IllegalStateException("email taken!");
+            throw new IllegalStateException("This email address is already taken!");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -30,8 +30,9 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
-        User user = userRepository.findByEmailAddress(emailAddress)
-                .orElseThrow(() -> new UsernameNotFoundException(STR."User not found with email: \{emailAddress}"));
+        User user = userRepository.findByEmailAddress(emailAddress).orElseThrow(
+                () -> new UsernameNotFoundException("User not found with email: %s".formatted(emailAddress))
+        );
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmailAddress())

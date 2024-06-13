@@ -44,8 +44,9 @@ public class LoginController {
             case ADMIN -> "redirect:/admin";
             case LIBRARIAN -> "redirect:/librarian";
             case USER -> "redirect:/user";
-            case null ->
-                    throw new UserRoleNotFoundException(STR."No user role has been found for this email: \{email}");
+            case null -> throw new UserRoleNotFoundException(
+                    "No user role has been found for this email: %s".formatted(email)
+            );
         };
     }
 }

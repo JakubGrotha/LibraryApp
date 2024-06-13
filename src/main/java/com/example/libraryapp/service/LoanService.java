@@ -27,7 +27,7 @@ public class LoanService {
         LibraryCard libraryCard = libraryCardService.findLibraryCardByCardNumber(libraryCardNumber);
 
         if (!bookToLoan.isAvailable()) {
-            return new Failure(STR."Book with the following barcode has already been borrowed: \{barcode}");
+            return new Failure("Book with the following barcode has already been borrowed: %s".formatted(barcode));
         }
 
         Loan loan = Loan.builder()

@@ -23,6 +23,7 @@ class LibraryCardServiceTest {
 
     @Mock
     private LibraryCardRepository libraryCardRepository;
+
     @InjectMocks
     private LibraryCardService libraryCardService;
 

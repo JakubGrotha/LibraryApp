@@ -2,24 +2,20 @@ package com.example.libraryapp.repository;
 
 import com.example.libraryapp.model.BookDetails;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestConstructor;
 
 import java.util.Optional;
 
-import static org.springframework.test.context.TestConstructor.AutowireMode.ALL;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestConstructor(autowireMode = ALL)
 class BookDetailsRepositoryTest {
+
     private static final String ISBN = "978-0-261-10221-7";
 
-    private final BookDetailsRepository bookDetailsRepository;
-
-    BookDetailsRepositoryTest(BookDetailsRepository bookDetailsRepository) {
-        this.bookDetailsRepository = bookDetailsRepository;
-    }
+    @Autowired
+    private BookDetailsRepository bookDetailsRepository;
 
     @Test
     void findBookDetailsByIsbnReturnsCorrectBookDetailsObject() {

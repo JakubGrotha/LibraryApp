@@ -23,7 +23,7 @@ public class GoogleBooksApiService {
         }
         String apiKey = configuration.getKey();
         ResponseEntity<GoogleBooksDetails> response = restClient.get()
-                .uri(STR."https://www.googleapis.com/books/v1/volumes?q=isbn:\{isbn}&keyes&key=\{apiKey}")
+                .uri("https://www.googleapis.com/books/v1/volumes?q=isbn:%s&keyes&key=%s".formatted(isbn, apiKey))
                 .retrieve()
                 .toEntity(GoogleBooksDetails.class);
 

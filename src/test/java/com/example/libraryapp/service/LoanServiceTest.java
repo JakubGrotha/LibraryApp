@@ -6,12 +6,12 @@ import com.example.libraryapp.model.LibraryCard;
 import com.example.libraryapp.model.Loan;
 import com.example.libraryapp.repository.LoanRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -19,23 +19,15 @@ import static org.mockito.Mockito.when;
 
 class LoanServiceTest {
 
-    private LoanRepository loanRepository;
-    private BookService bookService;
-    private LibraryCardService libraryCardService;
-    private LoanService loanService;
-
-    @BeforeEach
-    void setup() {
-        loanRepository = mock(LoanRepository.class);
-        bookService = mock(BookService.class);
-        libraryCardService = mock(LibraryCardService.class);
-        loanService = new LoanService(loanRepository, bookService, libraryCardService);
-    }
+    private final LoanRepository loanRepository = mock(LoanRepository.class);
+    private final BookService bookService = mock(BookService.class);
+    private final LibraryCardService libraryCardService = mock(LibraryCardService.class);
+    private final LoanService loanService = new LoanService(loanRepository, bookService, libraryCardService);
 
     @Test
     void findLoanByIdReturnsCorrectLoanObject() {
         // given
-        long loanId = 1L;
+        long loanId = 1;
         Loan loanFromDatabase = Loan.builder()
                 .id(loanId)
                 .libraryCard(new LibraryCard())
@@ -59,11 +51,11 @@ class LoanServiceTest {
     @Test
     void findLoanByIdThrowsCorrectException() {
         // given
-        long loanId = 0L;
+        long loanId = 0;
         // when
         when(loanRepository.findById(loanId)).thenReturn(Optional.empty());
         // then
-        Assertions.assertThatThrownBy(() -> loanService.findLoanById(loanId))
+        assertThatThrownBy(() -> loanService.findLoanById(loanId))
                 .isInstanceOf(LoanNotFoundException.class)
                 .hasMessage("No loan found with the id: %d".formatted(loanId));
     }

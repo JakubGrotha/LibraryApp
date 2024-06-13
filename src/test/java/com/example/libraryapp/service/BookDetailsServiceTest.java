@@ -17,7 +17,6 @@ import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 class BookDetailsServiceTest {
 
     private BookDetailsRepository bookDetailsRepository;
