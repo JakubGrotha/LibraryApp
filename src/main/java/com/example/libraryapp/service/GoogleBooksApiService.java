@@ -36,17 +36,15 @@ public class GoogleBooksApiService {
                 .findFirst()
                 .map(Volume::volumeInfo)
                 .orElse(null);
-        if (volumeInfo == null) {
-            return new BookDetails();
-        }
-
-        BookDetails bookDetails = new BookDetails();
-        bookDetails.setIsbn(isbn);
-        bookDetails.setAuthor(volumeInfo.authors().getFirst());
-        bookDetails.setTitle(volumeInfo.title());
-        bookDetails.setPublisher(volumeInfo.publisher());
-        bookDetails.setNumberOfPages(volumeInfo.pageCount());
-        bookDetails.setLanguage(volumeInfo.language());
-        return bookDetails;
+        return volumeInfo == null
+                ? new BookDetails()
+                : BookDetails.builder()
+                    .isbn(isbn)
+                    .author(volumeInfo.authors().getFirst())
+                    .title(volumeInfo.title())
+                    .publisher(volumeInfo.publisher())
+                    .numberOfPages(volumeInfo.pageCount())
+                    .language(volumeInfo.language())
+                    .build();
     }
 }

@@ -6,8 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import static com.example.libraryapp.model.UserRole.*;
-
 @UtilityClass
 public class SecurityUtils {
 
@@ -23,15 +21,19 @@ public class SecurityUtils {
                 .findFirst()
                 .map(GrantedAuthority::getAuthority)
                 .orElseThrow();
-        return mapToUserRole(role);
+
+        for (UserRole userRole : UserRole.values()) {
+            if (role.equals(userRole.securityRole)) {
+                return userRole;
+            }
+        }
+        throw new UserRoleNotFoundException("Wrong user role: %s".formatted(role));
     }
 
-    private static UserRole mapToUserRole(String role) {
-        return switch (role) {
-            case "ROLE_ADMIN" -> ADMIN;
-            case "ROLE_LIBRARIAN" -> LIBRARIAN;
-            case "ROLE_USER" -> USER;
-            case null, default -> null;
-        };
+    private static class UserRoleNotFoundException extends RuntimeException {
+
+        private UserRoleNotFoundException(String message) {
+            super(message);
+        }
     }
 }

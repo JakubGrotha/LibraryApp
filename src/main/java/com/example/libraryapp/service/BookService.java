@@ -41,18 +41,17 @@ public class BookService {
     }
 
     public Page<Book> filteredBooks(Pageable pageable, String title, String author) {
-        boolean titleCheck = title != null && !title.isBlank();
-        boolean authorCheck = author != null && !author.isBlank();
+        boolean isTitlePresent = title != null && !title.isBlank();
+        boolean isAuthorPresent = author != null && !author.isBlank();
 
-        if (titleCheck) {
-            if (authorCheck) {
+        if (isTitlePresent) {
+            if (isAuthorPresent) {
                 return bookRepository.findAllByBookDetailsTitleAndBookDetailsAuthor(pageable, title, author);
-            } else {
-                return bookRepository.findAllByBookDetailsTitle(pageable, title);
             }
+            return bookRepository.findAllByBookDetailsTitle(pageable, title);
         }
 
-        if (authorCheck) {
+        if (isAuthorPresent) {
             return bookRepository.findAllByBookDetailsAuthor(pageable, author);
         }
 

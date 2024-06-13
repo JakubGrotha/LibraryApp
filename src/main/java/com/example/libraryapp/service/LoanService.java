@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import static com.example.libraryapp.service.LoanService.LoanResult.*;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class LoanService {
 
@@ -22,6 +21,7 @@ public class LoanService {
     private final BookService bookService;
     private final LibraryCardService libraryCardService;
 
+    @Transactional
     public LoanResult loanBook(String barcode, int libraryCardNumber, int durationInMonths) {
         Book bookToLoan = bookService.findBookByBarcode(barcode);
         LibraryCard libraryCard = libraryCardService.findLibraryCardByCardNumber(libraryCardNumber);
@@ -61,6 +61,7 @@ public class LoanService {
     }
 
     public sealed interface LoanResult permits Success, Failure {
+
         record Success() implements LoanResult {
         }
 
