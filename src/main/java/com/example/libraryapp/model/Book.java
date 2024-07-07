@@ -3,8 +3,6 @@ package com.example.libraryapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
-
 @Entity
 @Data
 @AllArgsConstructor
