@@ -14,6 +14,7 @@ public class GoogleBooksApiConfiguration {
 
     @NotNull
     private boolean enabled;
+
     @NotNull
     private String key;
 }

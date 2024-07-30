@@ -21,35 +21,35 @@
     <form th:action="@{/librarian/books}" th:object="${book}" method="post">
         <div class="mb-3">
             <label for="barcode">Barcode: </label>
-            <input type="text" class="form-control" id="barcode" th:field="*{barcode}"/>
+            <input type="text" class="form-control" id="barcode" th:field="*{barcode}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="isbn">ISBN: </label>
-            <input type="text" class="form-control" id="isbn" th:field="*{bookDetails.isbn}"/>
+            <input type="text" class="form-control" id="isbn" th:field="*{bookDetails.isbn}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="bookAuthor">Book author: </label>
-            <input type="text" class="form-control" id="bookAuthor" th:field="*{bookDetails.author}"/>
+            <input type="text" class="form-control" id="bookAuthor" th:field="*{bookDetails.author}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="bookTitle">Book title: </label>
-            <input type="text" class="form-control" id="bookTitle" th:field="*{bookDetails.title}"/>
+            <input type="text" class="form-control" id="bookTitle" th:field="*{bookDetails.title}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="bookPublisher">Publisher: </label>
-            <input type="text" class="form-control" id="bookPublisher" th:field="*{bookDetails.publisher}"/>
+            <input type="text" class="form-control" id="bookPublisher" th:field="*{bookDetails.publisher}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="numOfPages">Number of pages: </label>
-            <input type="text" class="form-control" id="numOfPages" th:field="*{bookDetails.numberOfPages}"/>
+            <input type="text" class="form-control" id="numOfPages" th:field="*{bookDetails.numberOfPages}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="bookGenre">Book genre: </label>
-            <input type="text" class="form-control" id="bookGenre" th:field="*{bookDetails.genre}"/>
+            <input type="text" class="form-control" id="bookGenre" th:field="*{bookDetails.genre}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="bookLanguage">Language: </label>
-            <input type="text" class="form-control" id="bookLanguage" th:field="*{bookDetails.language}"/>
+            <input type="text" class="form-control" id="bookLanguage" th:field="*{bookDetails.language}" autocomplete="off"/>
         </div>
         <input type="hidden" class="form-control" id="id" th:field="*{bookDetails.id}">
         <button type="submit" class="btn btn-success">Add the book</button>

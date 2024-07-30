@@ -21,15 +21,15 @@
     <form th:action="@{/librarian/user}" th:object="${user}" method="post">
         <div class="mb-3">
             <label for="name">Name: </label>
-            <input type="text" class="form-control" id="name" th:field="*{name}"/>
+            <input type="text" class="form-control" id="name" th:field="*{name}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="emailAddress">Email address: </label>
-            <input type="text" class="form-control" id="emailAddress" th:field="*{emailAddress}"/>
+            <input type="text" class="form-control" id="emailAddress" th:field="*{emailAddress}" autocomplete="off"/>
         </div>
         <div class="mb-3">
             <label for="libraryCardNumber">Library card number: </label>
-            <input type="text" class="form-control" id="libraryCardNumber" th:field="*{libraryCard.libraryCardNumber}"/>
+            <input type="text" class="form-control" id="libraryCardNumber" th:field="*{libraryCard.libraryCardNumber}" autocomplete="off"/>
         </div>
         <button type="submit" class="btn btn-success">Add new user</button>
     </form>
