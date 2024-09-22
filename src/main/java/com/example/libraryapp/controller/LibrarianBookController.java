@@ -23,10 +23,12 @@ public class LibrarianBookController {
     private static final String REDIRECT_TO_ALL_BOOKS = "redirect:/librarian/books";
 
     @GetMapping("/books")
-    public String getAllBooks(Model model,
-                              @RequestParam(value = "title", required = false) String title,
-                              @RequestParam(value = "author", required = false) String author,
-                              @SortDefault("bookDetails.title") Pageable pageable) {
+    public String getAllBooks(
+            Model model,
+            @RequestParam(value = "title", required = false) String title,
+            @RequestParam(value = "author", required = false) String author,
+            @SortDefault("bookDetails.title") Pageable pageable
+    ) {
         Page<Book> books = bookService.filteredBooks(pageable, title, author);
         model.addAttribute("books", books);
         model.addAttribute("title", title);

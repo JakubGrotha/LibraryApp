@@ -7,7 +7,7 @@ spring:
   jpa:
     hibernate.ddl-auto: update # TODO: Introduce migrations and set this value to 'validate'
     database-platform: org.hibernate.dialect.MySQL8Dialect
-    spring.jpa.open-in-view: false
+    open-in-view: false
 
 google:
   books:

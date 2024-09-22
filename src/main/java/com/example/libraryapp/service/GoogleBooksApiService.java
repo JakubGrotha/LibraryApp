@@ -2,13 +2,14 @@ package com.example.libraryapp.service;
 
 import com.example.libraryapp.configuration.GoogleBooksApiConfiguration;
 import com.example.libraryapp.model.BookDetails;
-import com.example.libraryapp.model.googlebooks.GoogleBooksDetails;
-import com.example.libraryapp.model.googlebooks.Volume;
-import com.example.libraryapp.model.googlebooks.VolumeInfo;
+import com.example.libraryapp.model.GoogleBooksDetails;
+import com.example.libraryapp.model.GoogleBooksDetails.Volume.VolumeInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+
+import static com.example.libraryapp.model.GoogleBooksDetails.*;
 
 @Service
 @RequiredArgsConstructor
