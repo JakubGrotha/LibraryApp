@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getEmailAddress())
                 .password(user.getPassword())
-                .roles(user.getRole().toString())
+                .roles(user.getUserRole().toString())
                 .accountExpired(!user.isAccountNonExpired())
                 .accountLocked(!user.isAccountNonLocked())
                 .credentialsExpired(!user.isCredentialsNonExpired())

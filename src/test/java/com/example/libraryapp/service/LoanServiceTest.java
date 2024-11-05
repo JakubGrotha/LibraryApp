@@ -5,13 +5,14 @@ import com.example.libraryapp.model.Book;
 import com.example.libraryapp.model.LibraryCard;
 import com.example.libraryapp.model.Loan;
 import com.example.libraryapp.repository.LoanRepository;
-import org.assertj.core.api.Assertions;
+import com.example.libraryapp.utils.TimeProvider;
+import com.example.libraryapp.utils.UtcTimeProvider;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -22,7 +23,8 @@ class LoanServiceTest {
     private final LoanRepository loanRepository = mock(LoanRepository.class);
     private final BookService bookService = mock(BookService.class);
     private final LibraryCardService libraryCardService = mock(LibraryCardService.class);
-    private final LoanService loanService = new LoanService(loanRepository, bookService, libraryCardService);
+    private final TimeProvider timeProvider = new UtcTimeProvider();
+    private final LoanService loanService = new LoanService(loanRepository, bookService, libraryCardService, timeProvider);
 
     @Test
     void findLoanByIdReturnsCorrectLoanObject() {

@@ -85,13 +85,13 @@ class BookServiceTest {
     }
 
     @Test
-    void filteredBooksReturnsAllBooksIfBothCriteriaAreNull() {
+    void getFilteredBooksReturnsAllBooksIfBothCriteriaAreNull() {
         // GIVEN
         List<Book> allBooks = getListOfAllBooks();
         Pageable pageable = Pageable.ofSize(10).withPage(1);
         // WHEN
         when(bookRepository.findAll(pageable)).thenReturn(new PageImpl<>(allBooks));
-        Page<Book> result = bookService.filteredBooks(pageable, null, null);
+        Page<Book> result = bookService.getFilteredBooks(pageable, null, null);
         // THEN
         assertThat(result)
                 .containsAll(allBooks)
@@ -99,7 +99,7 @@ class BookServiceTest {
     }
 
     @Test
-    void filteredBooksReturnsBooksWithOnlyFilteredTitle() {
+    void filteredBooksReturnsBooksWithOnlyGetFilteredTitle() {
         // given
         String titleToFilter = "Correct";
         List<Book> allBooks = getListOfAllBooks();
@@ -111,7 +111,7 @@ class BookServiceTest {
         // when
         when(bookRepository.findAllByBookDetailsTitle(pageable, titleToFilter))
                 .thenReturn(new PageImpl<>(booksWithFilteredTitle));
-        Page<Book> result = bookService.filteredBooks(pageable, "Correct", null);
+        Page<Book> result = bookService.getFilteredBooks(pageable, "Correct", null);
         // then
         assertThat(result)
                 .containsAll(booksWithFilteredTitle)
@@ -119,7 +119,7 @@ class BookServiceTest {
     }
 
     @Test
-    void filteredBooksReturnsBooksWithOnlyFilteredAuthor() {
+    void filteredBooksReturnsBooksWithOnlyGetFilteredAuthor() {
         // given
         String authorToFilter = "Correct";
         List<Book> allBooks = getListOfAllBooks();
@@ -131,7 +131,7 @@ class BookServiceTest {
         // when
         when(bookRepository.findAllByBookDetailsAuthor(pageable, authorToFilter))
                 .thenReturn(new PageImpl<>(booksWithFilteredTitle));
-        Page<Book> result = bookService.filteredBooks(pageable, null, "Correct");
+        Page<Book> result = bookService.getFilteredBooks(pageable, null, "Correct");
         // then
         assertThat(result)
                 .containsAll(booksWithFilteredTitle)
@@ -139,7 +139,7 @@ class BookServiceTest {
     }
 
     @Test
-    void filteredBooksReturnsBooksWithBothFilteredAuthorAndFilteredTitle() {
+    void filteredBooksReturnsBooksWithBothFilteredAuthorAndGetFilteredTitle() {
         // gvien
         String authorToFilter = "Correct";
         String titleToFilter = "Correct";
@@ -154,7 +154,7 @@ class BookServiceTest {
         // when
         when(bookRepository.findAllByBookDetailsTitleAndBookDetailsAuthor(pageable, authorToFilter, titleToFilter))
                 .thenReturn(new PageImpl<>(booksWithFilteredTitle));
-        Page<Book> result = bookService.filteredBooks(pageable, "Correct", "Correct");
+        Page<Book> result = bookService.getFilteredBooks(pageable, "Correct", "Correct");
         // then
         assertThat(result)
                 .containsAll(booksWithFilteredTitle)

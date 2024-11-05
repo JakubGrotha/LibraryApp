@@ -2,7 +2,9 @@ package com.example.libraryapp.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +35,7 @@ public class User implements UserDetails {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private UserRole userRole;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private LibraryCard libraryCard;
@@ -48,12 +50,12 @@ public class User implements UserDetails {
         this.name = name;
         this.emailAddress = emailAddress;
         this.password = password;
-        this.role = userRole;
+        this.userRole = userRole;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
         return Collections.singletonList(authority);
     }
 

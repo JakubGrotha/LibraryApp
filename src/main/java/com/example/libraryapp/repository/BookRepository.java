@@ -15,15 +15,23 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findBookByBarcode(@Param("barcode") String barcode);
 
-    @Query("SELECT b FROM Book b WHERE LOWER(b.bookDetails.title) LIKE LOWER(CONCAT('%', :title, '%'))")
+    @Query("""
+            SELECT b FROM Book b
+            WHERE LOWER(b.bookDetails.title) LIKE LOWER(CONCAT('%', :title, '%'))
+            """)
     Page<Book> findAllByBookDetailsTitle(Pageable pageable, @Param("title") String title);
 
 
-    @Query("SELECT b FROM Book b WHERE LOWER(b.bookDetails.author) LIKE LOWER(CONCAT('%', :author, '%'))")
+    @Query("""
+            SELECT b FROM Book b
+            WHERE LOWER(b.bookDetails.author) LIKE LOWER(CONCAT('%', :author, '%'))
+            """)
     Page<Book> findAllByBookDetailsAuthor(Pageable pageable, @Param("author") String author);
 
-    @Query("SELECT b FROM Book b WHERE LOWER(b.bookDetails.title) LIKE LOWER(CONCAT('%', :title, '%'))" +
-            " AND LOWER(b.bookDetails.author) LIKE LOWER(CONCAT('%', :author, '%'))")
+    @Query("""
+            SELECT b FROM Book b WHERE LOWER(b.bookDetails.title) LIKE LOWER(CONCAT('%', :title, '%'))
+            AND LOWER(b.bookDetails.author) LIKE LOWER(CONCAT('%', :author, '%'))
+            """)
     Page<Book> findAllByBookDetailsTitleAndBookDetailsAuthor(Pageable pageable,
                                                              @Param("title") String title,
                                                              @Param("author") String author);

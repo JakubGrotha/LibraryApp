@@ -1,7 +1,7 @@
 package com.example.libraryapp.controller;
 
-import com.example.libraryapp.exception.BookAlreadyBorrowedException;
-import com.example.libraryapp.model.*;
+import com.example.libraryapp.model.Book;
+import com.example.libraryapp.model.User;
 import com.example.libraryapp.service.BookService;
 import com.example.libraryapp.service.LibraryCardService;
 import com.example.libraryapp.service.LoanService;
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.libraryapp.model.UserRole.*;
-import static com.example.libraryapp.service.LoanService.*;
-import static com.example.libraryapp.service.LoanService.LoanResult.*;
+import java.time.Period;
+
+import static com.example.libraryapp.model.UserRole.USER;
 
 @Controller
 @RequestMapping("/librarian")
@@ -40,7 +40,7 @@ public class LibrarianController {
 
     @PostMapping("/user")
     public String addNewUser(@ModelAttribute User user) {
-        user.setRole(USER);
+        user.setUserRole(USER);
         user.setPassword("123"); // TODO: Send a link to user to make them change the password
         registrationService.register(user);
         return REDIRECT_TO_MAIN_VIEW;
@@ -52,13 +52,12 @@ public class LibrarianController {
     }
 
     @PostMapping("/loan")
-    public String registerBookLoan(@RequestParam("book.barcode") String barcode,
-                                   @RequestParam("libraryCard.number") int libraryCardNumber,
-                                   @RequestParam("duration") int durationInMonths) {
-        LoanResult loanResult = loanService.loanBook(barcode, libraryCardNumber, durationInMonths);
-        if (loanResult instanceof Failure result) {
-            throw new BookAlreadyBorrowedException(result.message());
-        }
+    public String registerBookLoan(
+            @RequestParam("book.barcode") String barcode,
+            @RequestParam("libraryCard.number") int libraryCardNumber,
+            @RequestParam("duration") int durationInMonths
+    ) {
+        loanService.loanBook(barcode, libraryCardNumber, Period.ofMonths(durationInMonths));
         return REDIRECT_TO_MAIN_VIEW;
     }
 
@@ -70,15 +69,7 @@ public class LibrarianController {
 
     @GetMapping("/return/register")
     public String registerBookReturn(@RequestParam("barcode") String barcode) {
-        Book bookToReturn = bookService.findBookByBarcode(barcode);
-
-        if (bookToReturn != null) {
-            Loan loan = bookToReturn.getLoan();
-            bookToReturn.setLoan(null);
-            bookToReturn.setAvailable(true);
-            loanService.deleteLoanById(loan.getId());
-        }
-
+        loanService.registerReturn(barcode);
         return REDIRECT_TO_MAIN_VIEW;
     }
 }

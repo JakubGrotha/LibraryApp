@@ -1,7 +1,9 @@
 package com.example.libraryapp.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +29,6 @@ public class LibraryCard {
     @OneToMany(mappedBy = "libraryCard")
     private List<Loan> bookLoans = new ArrayList<>();
 
-    @Column(name="is_active")
+    @Column(name = "is_active")
     private boolean isActive;
-
-    public void addNewLoan(Loan loan) {
-        bookLoans.add(loan);
-    }
 }

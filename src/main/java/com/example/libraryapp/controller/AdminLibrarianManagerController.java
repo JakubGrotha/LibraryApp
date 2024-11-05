@@ -40,7 +40,7 @@ public class AdminLibrarianManagerController {
 
     @PostMapping()
     public String addNewLibrarian(@ModelAttribute User newLibrarian) {
-        newLibrarian.setRole(LIBRARIAN);
+        newLibrarian.setUserRole(LIBRARIAN);
         userService.signUpUser(newLibrarian);
         return "redirect:/admin/librarian-manager";
     }

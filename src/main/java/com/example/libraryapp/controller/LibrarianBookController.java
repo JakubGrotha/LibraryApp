@@ -29,7 +29,7 @@ public class LibrarianBookController {
             @RequestParam(value = "author", required = false) String author,
             @SortDefault("bookDetails.title") Pageable pageable
     ) {
-        Page<Book> books = bookService.filteredBooks(pageable, title, author);
+        Page<Book> books = bookService.getFilteredBooks(pageable, title, author);
         model.addAttribute("books", books);
         model.addAttribute("title", title);
         model.addAttribute("author", author);

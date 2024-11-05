@@ -3,6 +3,7 @@ package com.example.libraryapp.service;
 import com.example.libraryapp.exception.BookNotFoundException;
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.repository.BookRepository;
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,21 +41,16 @@ public class BookService {
         );
     }
 
-    public Page<Book> filteredBooks(Pageable pageable, String title, String author) {
-        boolean isTitlePresent = title != null && !title.isBlank();
-        boolean isAuthorPresent = author != null && !author.isBlank();
-
-        if (isTitlePresent) {
-            if (isAuthorPresent) {
-                return bookRepository.findAllByBookDetailsTitleAndBookDetailsAuthor(pageable, title, author);
-            }
+    public Page<Book> getFilteredBooks(Pageable pageable, String title, String author) {
+        boolean isTitlePresent = StringUtils.isNotBlank(title);
+        boolean isAuthorPresent = StringUtils.isNotBlank(author);
+        if (isTitlePresent && isAuthorPresent) {
+            return bookRepository.findAllByBookDetailsTitleAndBookDetailsAuthor(pageable, title, author);
+        } else if (isTitlePresent) {
             return bookRepository.findAllByBookDetailsTitle(pageable, title);
-        }
-
-        if (isAuthorPresent) {
+        } else if (isAuthorPresent) {
             return bookRepository.findAllByBookDetailsAuthor(pageable, author);
-        }
-
-        return bookRepository.findAll(pageable);
+        } else
+            return bookRepository.findAll(pageable);
     }
 }
