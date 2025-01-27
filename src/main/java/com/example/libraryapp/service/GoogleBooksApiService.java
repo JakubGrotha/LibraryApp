@@ -9,7 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
-import static com.example.libraryapp.model.GoogleBooksDetails.*;
+import java.util.Optional;
+
+import static com.example.libraryapp.model.GoogleBooksDetails.Volume;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,34 +21,30 @@ public class GoogleBooksApiService {
     private final GoogleBooksApiConfiguration configuration;
     private final RestClient restClient;
 
-    public BookDetails findBookDetailsInGoogleBooksApiUsingIsbn(String isbn) {
+    public Optional<BookDetails> findBookDetailsInGoogleBooksApiUsingIsbn(String isbn) {
         if (!configuration.enabled()) {
-            return new BookDetails();
+            return Optional.empty();
         }
         String apiKey = configuration.key();
         ResponseEntity<GoogleBooksDetails> response = restClient.get()
                 .uri("https://www.googleapis.com/books/v1/volumes?q=isbn:%s&keyes&key=%s".formatted(isbn, apiKey))
                 .retrieve()
                 .toEntity(GoogleBooksDetails.class);
-
-        GoogleBooksDetails googleBooksDetails = response.getBody();
-        if (googleBooksDetails == null) {
-            return new BookDetails();
-        }
-        VolumeInfo volumeInfo = googleBooksDetails.items()
-                .stream()
-                .findFirst()
+        return Optional.of(response)
+                .map(ResponseEntity::getBody)
+                .flatMap(it -> it.items().stream().findFirst())
                 .map(Volume::volumeInfo)
-                .orElse(null);
-        return volumeInfo == null
-                ? new BookDetails()
-                : BookDetails.builder()
-                    .isbn(isbn)
-                    .author(volumeInfo.authors().getFirst())
-                    .title(volumeInfo.title())
-                    .publisher(volumeInfo.publisher())
-                    .numberOfPages(volumeInfo.pageCount())
-                    .language(volumeInfo.language())
-                    .build();
+                .map(it -> createBookDetails(isbn, it));
+    }
+
+    private BookDetails createBookDetails(String isbn, VolumeInfo volumeInfo) {
+        return BookDetails.builder()
+                .isbn(isbn)
+                .author(volumeInfo.authors().getFirst())
+                .title(volumeInfo.title())
+                .publisher(volumeInfo.publisher())
+                .numberOfPages(volumeInfo.pageCount())
+                .language(volumeInfo.language())
+                .build();
     }
 }

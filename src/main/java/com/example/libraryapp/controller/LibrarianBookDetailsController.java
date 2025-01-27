@@ -7,7 +7,15 @@ import com.example.libraryapp.service.GoogleBooksApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import static com.example.libraryapp.service.BookDetailsService.*;
+import static com.example.libraryapp.service.BookDetailsService.LookupResult.*;
 
 @Controller
 @RequestMapping("/librarian")
@@ -36,17 +44,17 @@ public class LibrarianBookDetailsController {
 
     @GetMapping("/new-book")
     public String getNewBookDetailsForm(Model model, @RequestParam("book.isbn") String isbn) {
-        isbn = isbn.replace("-", "");
-        try {
-            BookDetails bookDetails = bookDetailsService.findBookDetailsByIsbn(isbn);
-            return "redirect:/librarian/new?id=%d".formatted(bookDetails.getId());
-        } catch (BookDetailsNotFoundException e) {
-            BookDetails googleBooksBasedBookDetails = googleBooksApiService
-                    .findBookDetailsInGoogleBooksApiUsingIsbn(isbn);
-            googleBooksBasedBookDetails.setIsbn(isbn);
-            model.addAttribute("bookDetails", googleBooksBasedBookDetails);
-        }
-        return "librarian/new-book-details";
+        String pureIsbn = isbn.replace("-", "");
+        LookupResult lookupResult = bookDetailsService.findBookDetailsByIsbn(pureIsbn);
+        return switch(lookupResult) {
+            case LookupResult.FoundInDatabase(var bookDetails) -> "redirect:/librarian/new?id=%d"
+                    .formatted(bookDetails.getId());
+            case LookupResult.FoundInGoogleBooks(var bookDetails) -> {
+                model.addAttribute("bookDetails", bookDetails);
+                yield "librarian/new-book-details";
+            }
+            case LookupResult.NotFound _ -> "librarian/new-book-details";
+        };
     }
 
     @PostMapping("/book-details")

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
+import static com.example.libraryapp.service.BookDetailsService.LookupResult.*;
 
 @Service
 @Transactional
@@ -15,6 +18,7 @@ import java.util.List;
 public class BookDetailsService {
 
     private final BookDetailsRepository bookDetailsRepository;
+    private final GoogleBooksApiService googleBooksApiService;
 
     public List<BookDetails> getAllBookDetails() {
         return bookDetailsRepository.findAll();
@@ -26,10 +30,18 @@ public class BookDetailsService {
                         .formatted(bookDetailsId)));
     }
 
-    public BookDetails findBookDetailsByIsbn(String bookIsbn) {
-        return bookDetailsRepository.findBookByIsbn(bookIsbn)
-                .orElseThrow(() -> new BookDetailsNotFoundException("No book found with the following ISBN: %s"
-                        .formatted(bookIsbn)));
+    public LookupResult findBookDetailsByIsbn(String bookIsbn) {
+        Optional<BookDetails> bookDetailsFromRepository = bookDetailsRepository.findBookByIsbn(bookIsbn);
+        if (bookDetailsFromRepository.isPresent()) {
+            return new FoundInDatabase(bookDetailsFromRepository.get());
+        }
+        Optional<BookDetails> bookDetailsFromGoogleBooksApi =
+                googleBooksApiService.findBookDetailsInGoogleBooksApiUsingIsbn(bookIsbn);
+        if (bookDetailsFromGoogleBooksApi.isPresent()) {
+            return new FoundInGoogleBooks(bookDetailsFromGoogleBooksApi.get());
+        }
+        return new NotFound();
+
     }
 
     public void addNewBookDetails(BookDetails bookDetailsToAdd) {
@@ -38,5 +50,17 @@ public class BookDetailsService {
 
     public void updateBookDetails(BookDetails bookDetails) {
         bookDetailsRepository.save(bookDetails);
+    }
+
+    public sealed interface LookupResult {
+        public record FoundInDatabase(BookDetails bookDetails) implements LookupResult {
+
+        }
+        public record FoundInGoogleBooks(BookDetails bookDetails) implements LookupResult {
+
+        }
+        public record NotFound() implements LookupResult {
+
+        }
     }
 }
