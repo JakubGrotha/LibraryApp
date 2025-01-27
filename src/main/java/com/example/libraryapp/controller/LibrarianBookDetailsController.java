@@ -1,6 +1,5 @@
 package com.example.libraryapp.controller;
 
-import com.example.libraryapp.exception.BookDetailsNotFoundException;
 import com.example.libraryapp.model.BookDetails;
 import com.example.libraryapp.service.BookDetailsService;
 import com.example.libraryapp.service.GoogleBooksApiService;
@@ -14,8 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static com.example.libraryapp.service.BookDetailsService.*;
-import static com.example.libraryapp.service.BookDetailsService.LookupResult.*;
+import static com.example.libraryapp.service.BookDetailsService.LookupResult;
 
 @Controller
 @RequestMapping("/librarian")

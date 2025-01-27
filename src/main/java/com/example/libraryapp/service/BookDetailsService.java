@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.example.libraryapp.service.BookDetailsService.LookupResult.*;
+import static com.example.libraryapp.service.BookDetailsService.LookupResult.FoundInDatabase;
+import static com.example.libraryapp.service.BookDetailsService.LookupResult.FoundInGoogleBooks;
+import static com.example.libraryapp.service.BookDetailsService.LookupResult.NotFound;
 
 @Service
 @Transactional
@@ -53,13 +55,15 @@ public class BookDetailsService {
     }
 
     public sealed interface LookupResult {
-        public record FoundInDatabase(BookDetails bookDetails) implements LookupResult {
+        record FoundInDatabase(BookDetails bookDetails) implements LookupResult {
 
         }
-        public record FoundInGoogleBooks(BookDetails bookDetails) implements LookupResult {
+
+        record FoundInGoogleBooks(BookDetails bookDetails) implements LookupResult {
 
         }
-        public record NotFound() implements LookupResult {
+
+        record NotFound() implements LookupResult {
 
         }
     }

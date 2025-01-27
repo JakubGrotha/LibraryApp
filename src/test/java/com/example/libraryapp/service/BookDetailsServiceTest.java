@@ -4,7 +4,6 @@ import com.example.libraryapp.exception.BookDetailsNotFoundException;
 import com.example.libraryapp.model.Book;
 import com.example.libraryapp.model.BookDetails;
 import com.example.libraryapp.repository.BookDetailsRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,21 +11,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.libraryapp.service.BookDetailsService.LookupResult;
+import static com.example.libraryapp.service.BookDetailsService.LookupResult.FoundInDatabase;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BookDetailsServiceTest {
 
-    private BookDetailsRepository bookDetailsRepository;
-    private BookDetailsService bookDetailsService;
-
-    @BeforeEach
-    void setup() {
-        bookDetailsRepository = mock(BookDetailsRepository.class);
-        bookDetailsService = new BookDetailsService(bookDetailsRepository);
-    }
+    private final BookDetailsRepository bookDetailsRepository = mock(BookDetailsRepository.class);
+    private final GoogleBooksApiService googleBooksApiService = mock(GoogleBooksApiService.class);
+    private final BookDetailsService bookDetailsService = new BookDetailsService(
+            bookDetailsRepository, googleBooksApiService
+    );
 
     @Test
     void getAllBookDetailsReturnsAllBookDetails() {
@@ -99,8 +99,10 @@ class BookDetailsServiceTest {
                 "fantasy", "English", new ArrayList<Book>());
         // WHEN
         when(bookDetailsRepository.findBookByIsbn(bookIsbn)).thenReturn(Optional.of(bookDetailsFromDatabase));
-        BookDetails bookDetails = bookDetailsService.findBookDetailsByIsbn(bookIsbn);
+        LookupResult lookupResult = bookDetailsService.findBookDetailsByIsbn(bookIsbn);
         // THEN
+        assertThat(lookupResult).isInstanceOf(FoundInDatabase.class);
+        BookDetails bookDetails = ((FoundInDatabase) lookupResult).bookDetails();
         assertAll("book details",
                 () -> assertEquals(bookDetailsFromDatabase.getId(), bookDetails.getId()),
                 () -> assertEquals(bookDetailsFromDatabase.getIsbn(), bookDetails.getIsbn()),
@@ -108,18 +110,5 @@ class BookDetailsServiceTest {
                 () -> assertEquals(bookDetailsFromDatabase.getLanguage(), bookDetails.getLanguage()),
                 () -> assertEquals(bookDetailsFromDatabase.getTitle(), bookDetails.getTitle())
         );
-    }
-
-    @Test
-    void findBookDetailsByIsbnThrowsBookDetailsNotFoundExceptionWhenGivenAnEmptyOptional() {
-        // GIVEN
-        String bookIsbn = "000-000-000-00";
-        // WHEN
-        when(bookDetailsRepository.findBookByIsbn(bookIsbn)).thenReturn(Optional.empty());
-        // THEN
-        assertThatThrownBy(() -> bookDetailsService.findBookDetailsByIsbn(bookIsbn))
-                .isInstanceOf(BookDetailsNotFoundException.class)
-                .hasMessage("No book found with the following ISBN: %s"
-                        .formatted(bookIsbn));
     }
 }
