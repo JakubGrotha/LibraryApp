@@ -19,10 +19,10 @@ public class GoogleBooksApiService {
     private final RestClient restClient;
 
     public BookDetails findBookDetailsInGoogleBooksApiUsingIsbn(String isbn) {
-        if (!configuration.isEnabled()) {
+        if (!configuration.enabled()) {
             return new BookDetails();
         }
-        String apiKey = configuration.getKey();
+        String apiKey = configuration.key();
         ResponseEntity<GoogleBooksDetails> response = restClient.get()
                 .uri("https://www.googleapis.com/books/v1/volumes?q=isbn:%s&keyes&key=%s".formatted(isbn, apiKey))
                 .retrieve()
