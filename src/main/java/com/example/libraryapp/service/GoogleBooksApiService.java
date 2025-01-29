@@ -5,9 +5,7 @@ import com.example.libraryapp.model.BookDetails;
 import com.example.libraryapp.model.GoogleBooksDetails;
 import com.example.libraryapp.model.GoogleBooksDetails.Volume.VolumeInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
 import java.util.Optional;
 
@@ -19,19 +17,16 @@ import static com.example.libraryapp.model.GoogleBooksDetails.Volume;
 public class GoogleBooksApiService {
 
     private final GoogleBooksApiConfiguration configuration;
-    private final RestClient restClient;
+    private final GoogleBooksApiExternalService googleBooksApiExternalService;
 
     public Optional<BookDetails> findBookDetailsInGoogleBooksApiUsingIsbn(String isbn) {
         if (!configuration.enabled()) {
             return Optional.empty();
         }
+        String query = "isbn:%s&keyes".formatted(isbn);
         String apiKey = configuration.key();
-        ResponseEntity<GoogleBooksDetails> response = restClient.get()
-                .uri("https://www.googleapis.com/books/v1/volumes?q=isbn:%s&keyes&key=%s".formatted(isbn, apiKey))
-                .retrieve()
-                .toEntity(GoogleBooksDetails.class);
+        GoogleBooksDetails response = googleBooksApiExternalService.getGoogleBooksDetails(query, apiKey);
         return Optional.of(response)
-                .map(ResponseEntity::getBody)
                 .flatMap(it -> it.items().stream().findFirst())
                 .map(Volume::volumeInfo)
                 .map(it -> createBookDetails(isbn, it));

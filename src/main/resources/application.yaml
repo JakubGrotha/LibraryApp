@@ -11,5 +11,6 @@ spring:
 
 google:
   books:
+    url: https://www.googleapis.com/books/v1/volumes
     enabled: false
     key: SECRET

@@ -16,6 +16,7 @@
 
     <properties>
         <java.version>23</java.version>
+        <maven.compiler.enablePreview>true</maven.compiler.enablePreview>
         <lombok.version>1.18.30</lombok.version>
     </properties>
 
