@@ -3,14 +3,12 @@ spring:
     url: jdbc:mysql://localhost:3306/library
     username: root
     password: password
-    driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate.ddl-auto: update # TODO: Introduce migrations and set this value to 'validate'
-    database-platform: org.hibernate.dialect.MySQL8Dialect
     open-in-view: false
 
 google:
   books:
-    url: https://www.googleapis.com/books/v1/volumes
     enabled: false
+    url: https://www.googleapis.com/books/v1/volumes
     key: SECRET

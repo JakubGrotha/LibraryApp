@@ -44,14 +44,17 @@ public class LibrarianBookDetailsController {
     public String getNewBookDetailsForm(Model model, @RequestParam("book.isbn") String isbn) {
         String pureIsbn = isbn.replace("-", "");
         LookupResult lookupResult = bookDetailsService.findBookDetailsByIsbn(pureIsbn);
-        return switch(lookupResult) {
-            case LookupResult.FoundInDatabase(var bookDetails) -> "redirect:/librarian/new?id=%d"
-                    .formatted(bookDetails.getId());
+        return switch (lookupResult) {
+            case LookupResult.FoundInDatabase(var bookDetails) ->
+                    "redirect:/librarian/new?id=%d".formatted(bookDetails.getId());
             case LookupResult.FoundInGoogleBooks(var bookDetails) -> {
                 model.addAttribute("bookDetails", bookDetails);
                 yield "librarian/new-book-details";
             }
-            case LookupResult.NotFound _ -> "librarian/new-book-details";
+            case LookupResult.NotFound _ -> {
+                model.addAttribute(("bookDetails"), BookDetails.builder().isbn(pureIsbn).build());
+                yield "librarian/new-book-details";
+            }
         };
     }
 

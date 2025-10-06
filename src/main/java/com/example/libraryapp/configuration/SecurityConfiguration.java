@@ -26,9 +26,8 @@ public class SecurityConfiguration {
             UserService userService,
             BCryptPasswordEncoder encoder
     ) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userService);
         provider.setPasswordEncoder(encoder);
-        provider.setUserDetailsService(userService);
         return provider;
     }
 

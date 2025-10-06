@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Period;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.StructuredTaskScope;
+import java.util.concurrent.StructuredTaskScope.FailedException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +26,10 @@ public class LoanService {
 
     @Transactional
     public void loanBook(String barcode, int libraryCardNumber, Period loanDuration) {
-        try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
+        try (var scope = StructuredTaskScope.open()) {
             var bookToLoanSubtask = scope.fork(() -> bookService.findBookByBarcode(barcode));
             var libraryCardSubtask = scope.fork(() -> libraryCardService.findLibraryCardByCardNumber(libraryCardNumber));
             scope.join();
-            scope.throwIfFailed();
 
             Book bookToLoan = bookToLoanSubtask.get();
             LibraryCard libraryCard = libraryCardSubtask.get();
@@ -43,8 +42,10 @@ public class LoanService {
             updateBookToLoan(bookToLoan, loan);
         } catch (InterruptedException e) {
             System.out.println("Interrupted"); // TODO: Add logging
-        } catch (ExecutionException e) {
-            System.out.println("Execution exception"); // TODO: Add logging
+            throw new RuntimeException(e);
+        } catch (FailedException e) {
+            System.out.println("Failed exception"); // TODO: Add logging
+            throw new RuntimeException(e);
         }
     }
 
@@ -52,6 +53,9 @@ public class LoanService {
     public void registerReturn(String barcode) {
         Book bookToReturn = bookService.findBookByBarcode(barcode);
         Loan loan = bookToReturn.getLoan();
+        if (loan == null) {
+            throw new RuntimeException("Loan not found for book with id %s".formatted(bookToReturn.getId()));
+        }
         bookToReturn.setLoan(null);
         bookToReturn.setAvailable(true);
         bookService.updateBook(bookToReturn);

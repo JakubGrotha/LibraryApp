@@ -43,7 +43,6 @@ public class BookDetailsService {
             return new FoundInGoogleBooks(bookDetailsFromGoogleBooksApi.get());
         }
         return new NotFound();
-
     }
 
     public void addNewBookDetails(BookDetails bookDetailsToAdd) {
@@ -56,15 +55,12 @@ public class BookDetailsService {
 
     public sealed interface LookupResult {
         record FoundInDatabase(BookDetails bookDetails) implements LookupResult {
-
         }
 
         record FoundInGoogleBooks(BookDetails bookDetails) implements LookupResult {
-
         }
 
         record NotFound() implements LookupResult {
-
         }
     }
 }
